@@ -27,4 +27,15 @@ contact
   color: white;
   text-shadow: 0 0 200px darkturquoise, 0 0 500px cyan;
 }
-
+contact:link {
+  color: red;
+}
+contact:visited {
+  color: green;
+}
+contact:hover {
+  color: hotpink;
+}
+contact:active {
+  color: blue;
+}
