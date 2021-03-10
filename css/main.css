@@ -4,8 +4,7 @@ body {background-color: black;}
   display: block;
   margin-left: auto;
   margin-right: auto;
-  animation: glow 4s infinite alternate;
-  width: 50%;
+  animation: glow 3s infinite alternate;
 }
 .thetext
 {
@@ -50,9 +49,9 @@ body {background-color: black;}
 }
 @keyframes glow {
   from {
-    box-shadow: 0 0 10px -10px #00c0ff;
+    text-shadow: 0 0 10px -10px #00c0ff;
   }
   to {
-    box-shadow: 0 0 10px 20px #00c0ff;
+    text-shadow: 0 0 10px 10px #00c0ff;
   }
 }
