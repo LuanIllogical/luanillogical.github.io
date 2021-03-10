@@ -25,6 +25,7 @@ body
 }
 .projects
 {
+  padding: 20px;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
