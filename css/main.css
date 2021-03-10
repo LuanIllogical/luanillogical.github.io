@@ -26,7 +26,7 @@ body {background-color: black;}
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  text-decorations none;
+  text-decorations: none;
   font-size: 20px;
   color: white;
   text-shadow: 0 0 400px darkturquoise, 0 0 100px cyan;
