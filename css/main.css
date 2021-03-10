@@ -25,7 +25,8 @@ body
 }
 .horizontalgap
 {
-  padding: 264px;
+  padding-right: 264px;
+  padding-left: 264px;
   text-decorations: none;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
@@ -35,7 +36,8 @@ body
 }
 .projects:link
 {
-  padding: 264px;
+  padding-right: 264px;
+  padding-left: 264px;
   color: white;
 }
 .projects:visited
