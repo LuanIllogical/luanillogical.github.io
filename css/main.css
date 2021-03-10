@@ -23,6 +23,14 @@ body
   font-size: 24px;
   animation: textglow 5s ease-in-out infinite alternate;
 }
+.projects
+{
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  animation: textglow 5s ease-in-out infinite alternate;
+}
 .contacttag {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
