@@ -16,7 +16,7 @@ thetext
   margin-right: 50%;
   font-size: 40px;
   color: white;
-  text-shadow: 0 0 200px darkturquoise, 0 0 50px cyan;
+  text-shadow: 0 0 400px darkturquoise, 0 0 100px cyan;
 }
 contact
 {
@@ -27,7 +27,7 @@ contact
   margin-right: 50%;
   font-size: 20px;
   color: white;
-  text-shadow: 0 0 200px darkturquoise, 0 0 50px cyan;
+  text-shadow: 0 0 400px darkturquoise, 0 0 100px cyan;
 }
 contact:link {
   color: red;
