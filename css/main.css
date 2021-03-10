@@ -1,9 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap");
 body {background-color: black;}
 .exitiumthecatclass {
-  display: block;
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+  font-size: 50px;
+  color: white;
   animation: glow 3s infinite alternate;
 }
 .thetext
@@ -17,6 +22,11 @@ body {background-color: black;}
   font-size: 40px;
   color: white;
   animation: textglow 5s infinite alternate;
+}
+.contactme{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 .contactme:link {
   font-family: Noto Sans, sans-serif;
