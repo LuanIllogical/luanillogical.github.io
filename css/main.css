@@ -8,6 +8,9 @@ img.mainimage {
 }
 thetext 
 {
+  font-family: tekton-pro, sans-serif;
+  font-style: normal;
+  font-weight: 400;
   margin-left: 50%;
   margin-right: 50%;
   font-size: 40px;
