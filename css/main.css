@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap");
 body {background-color: black;}
-.exitiumthecatclass
+.thetext2
 {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
@@ -8,7 +8,7 @@ body {background-color: black;}
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-size: 50px;
+  font-size: 40px;
   color: white;
   animation: textglow 5s ease-in-out infinite alternate;
 }
