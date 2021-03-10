@@ -12,9 +12,11 @@ thetext
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
+  margin-left: 50%;
+  margin-right: 50%;
   font-size: 40px;
   color: white;
-  text-shadow: 0 0 200px darkturquoise, 0 0 200px cyan;
+  text-shadow: 0 0 200px darkturquoise, 0 0 50px cyan;
 }
 contact
 {
@@ -25,7 +27,7 @@ contact
   margin-right: 50%;
   font-size: 20px;
   color: white;
-  text-shadow: 0 0 200px darkturquoise, 0 0 200px cyan;
+  text-shadow: 0 0 200px darkturquoise, 0 0 50px cyan;
 }
 contact:link {
   color: red;
