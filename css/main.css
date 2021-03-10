@@ -18,8 +18,7 @@ body {background-color: black;}
   color: white;
   animation: textglow 5s infinite alternate;
 }
-.contactme
-{
+.contactme:link {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -32,21 +31,44 @@ body {background-color: black;}
   color: white;
   animation: textglow 5s infinite alternate;
 }
-.contactme:link {
-  color: red;
-    text-decoration: none;
-}
 .contactme:visited {
-  color: green;
-    text-decoration: none;
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  color:
+  font-size: 20px;
+  color: white;
+  animation: textglow 5s infinite alternate;
 }
 .contactme:hover {
-  color: hotpink;
-    text-decoration: none;
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  color:
+  font-size: 20px;
+  color: lightblue;
+  animation: textglow 5s infinite alternate;
 }
 .contactme:active {
-  color: blue;
-    text-decoration: none;
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  color:
+  font-size: 20px;
+  color: cyan;
+  animation: textglow 5s infinite alternate;
 }
 @keyframes glow {
   from {
