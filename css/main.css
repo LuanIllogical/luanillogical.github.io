@@ -28,13 +28,17 @@ contact
 }
 contact:link {
   color: red;
+    text-decoration: none;
 }
 contact:visited {
   color: green;
+    text-decoration: none;
 }
 contact:hover {
   color: hotpink;
+    text-decoration: none;
 }
 contact:active {
   color: blue;
+    text-decoration: none;
 }
