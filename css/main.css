@@ -21,7 +21,7 @@ body {background-color: black;}
   text-align: center;
   font-size: 40px;
   color: white;
-  animation: textglow 5s infinite alternate;
+  animation: exitiumtextglow 5s ease-in-out infinite alternate;
 }
 .contactme{
   margin-left: auto;
@@ -80,19 +80,19 @@ body {background-color: black;}
   color: cyan;
   animation: textglow 2s ease-in-out infinite alternate;
 }
-@keyframes glow {
+@keyframes exitiumglow {
   from {
-    box-shadow: 0 0 10px 5px #00c0ff;
+    text-shadow: 0 0 10px 15px #00c0ff;
   }
   to {
-    box-shadow: 0 0 10px 15px #00c0ff;
+    text-shadow: 0 0 10px 5px #00c0ff;
   }
 }
 @keyframes textglow {
   from {
-    text-shadow: 0 0 10px #ffffff, 0 0 25px #00c0ff;
-  }
-  to {
     text-shadow: 0 0 20px #ffffff, 0 0 50px #00c0ff;
+  }
+  to {   
+    text-shadow: 0 0 10px #ffffff, 0 0 25px #00c0ff;
   }
 }
