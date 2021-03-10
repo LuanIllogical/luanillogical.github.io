@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap");
 body {background-color: black;}
-.mainimage {
+.exitiumthecatclass {
   box-shadow: 0px 0px 10px #00c0ff;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
+  width: 50%;
 }
 thetext
 {
