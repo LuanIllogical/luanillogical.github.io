@@ -26,15 +26,28 @@ body
 .horizontalgap
 {
   padding: 264px;
-}
-.projects
-{
-  padding: 20px;
+  text-decorations: none;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
   animation: textglow 5s ease-in-out infinite alternate;
+}
+.projects:link
+{
+  color: white;
+}
+.projects:visited
+{
+  color: white;
+}
+.projects:hover
+{
+  color: navy;
+}
+.projects:active
+{
+  color: navy;
 }
 .contacttag {
   font-family: Noto Sans, sans-serif;
