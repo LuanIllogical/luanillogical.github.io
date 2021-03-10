@@ -8,5 +8,5 @@ body {background-color: black;}
 thetext 
 {
   color: white;
-  text-shadow: 0 0 25px darkturquoise, 0 0 5px cyan;
+  text-shadow: 0 0 100px darkturquoise, 0 0 25px cyan;
 }
