@@ -18,7 +18,7 @@ body {background-color: black;}
   color: white;
   text-shadow: 0 0 400px darkturquoise, 0 0 100px cyan;
 }
-contact
+.contactme
 {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
@@ -26,23 +26,24 @@ contact
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  text-decorations none;
   font-size: 20px;
   color: white;
   text-shadow: 0 0 400px darkturquoise, 0 0 100px cyan;
 }
-contact:link {
+.contactme:link {
   color: red;
     text-decoration: none;
 }
-contact:visited {
+.contactme:visited {
   color: green;
     text-decoration: none;
 }
-contact:hover {
+.contactme:hover {
   color: hotpink;
     text-decoration: none;
 }
-contact:active {
+.contactme:active {
   color: blue;
     text-decoration: none;
 }
