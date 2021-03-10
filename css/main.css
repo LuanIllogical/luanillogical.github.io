@@ -9,7 +9,7 @@ body {background-color: black;}
   text-align: center;
   font-size: 50px;
   color: white;
-  animation: exitiumglow 3s ease-in-out infinite alternate;
+  animation: text 3s ease-in-out infinite alternate;
 }
 .thetext
 {
@@ -19,7 +19,7 @@ body {background-color: black;}
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
   animation: textglow 5s ease-in-out infinite alternate;
 }
