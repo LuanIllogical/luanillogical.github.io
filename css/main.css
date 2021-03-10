@@ -5,3 +5,7 @@ body {background-color: black;}
   margin-right: auto;
   width: 50%;
 }
+img
+{
+    box-shadow: 0px 0px 5px #fff;
+}
