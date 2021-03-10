@@ -23,6 +23,10 @@ body
   font-size: 24px;
   animation: textglow 5s ease-in-out infinite alternate;
 }
+.horizontalgap
+{
+  padding: 20px;
+}
 .projects
 {
   padding: 20px;
