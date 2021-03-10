@@ -12,11 +12,7 @@ body
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
   font-size: 40px;
-  color: white;
   animation: textglow 5s ease-in-out infinite alternate;
 }
 .thetext
@@ -25,19 +21,14 @@ body
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
-  color: white;
   animation: textglow 5s ease-in-out infinite alternate;
 }
 .contacttag {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
   text-decorations: none;
   font-size: 20px;
-  color: white;
   animation: textglow 2s ease-in-out infinite alternate;
 }
 .contactme:link {
