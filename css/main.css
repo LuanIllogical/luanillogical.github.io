@@ -29,7 +29,7 @@ body {background-color: black;}
   style: color:#ffffff;
   font-size: 20px;
   color: white;
-  animation: textglow 2s infinite alternate;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 .contactme:visited {
   font-family: Noto Sans, sans-serif;
@@ -42,7 +42,7 @@ body {background-color: black;}
   color:
   font-size: 20px;
   color: white;
-  animation: textglow 2s infinite alternate;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 .contactme:hover {
   font-family: Noto Sans, sans-serif;
@@ -55,7 +55,7 @@ body {background-color: black;}
   color:
   font-size: 20px;
   color: navy;
-  animation: textglow 2s infinite alternate;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 .contactme:active {
   font-family: Noto Sans, sans-serif;
@@ -68,7 +68,7 @@ body {background-color: black;}
   color:
   font-size: 20px;
   color: cyan;
-  animation: textglow 2s infinite alternate;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 @keyframes glow {
   from {
