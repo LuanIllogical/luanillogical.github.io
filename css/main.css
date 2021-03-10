@@ -4,10 +4,12 @@ exitiumthecat {
   display: block;
   margin-left: 50%;
   margin-right: 50%;
+  text-align: center;
 }
 thetext 
 {
-  font-size = 40px;
+  text-align: center;
+  font-size: 40px;
   color: white;
   text-shadow: 0 0 100px darkturquoise, 0 0 25px cyan;
 }
