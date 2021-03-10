@@ -9,7 +9,7 @@ body {background-color: black;}
   text-align: center;
   font-size: 50px;
   color: white;
-  animation: exitiumglow 3s infinite alternate;
+  animation: exitiumglow 3s ease-in-out infinite alternate;
 }
 .thetext
 {
@@ -90,9 +90,9 @@ body {background-color: black;}
 }
 @keyframes textglow {
   from {
-    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #00c0ff, 0 0 40px #00c0ff, 0 0 50px #00c0ff;
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #00c0ff, 0 0 40px #00c0ff;
   }
   to {   
-    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #00c0ff, 0 0 20px #00c0ff, 0 0 25px #00c0ff;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #00c0ff, 0 0 20px #00c0ff;
   }
 }
