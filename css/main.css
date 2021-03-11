@@ -37,8 +37,6 @@ body
   animation: textglow 2s ease-in-out infinite alternate;
 }
 .mewhen:link {
-  position: relative;
-  top: 30px;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -51,8 +49,6 @@ body
   animation: textglow 2s ease-in-out infinite alternate;
 }
 .mewhen:hover {
-  position: relative;
-  top: 30px;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -65,8 +61,6 @@ body
   animation: textglow 2s ease-in-out infinite alternate;
 }
 .mewhen:active {
-  position: relative;
-  top: 30px;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
