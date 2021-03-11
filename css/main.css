@@ -33,7 +33,7 @@ body
   font-size: 18px;
   color: white;
   position: relative;
-  top: 20px;
+  top: 14px;
   animation: textglow 2s ease-in-out infinite alternate;
 }
 .mewhen:link {
