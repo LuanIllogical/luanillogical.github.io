@@ -48,6 +48,18 @@ body
   color: white;
   animation: textglow 2s ease-in-out infinite alternate;
 }
+.mewhen:visited {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 30px;
+  color: white;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
 .mewhen:hover {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
