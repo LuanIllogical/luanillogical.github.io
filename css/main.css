@@ -40,17 +40,61 @@ body
   padding-left: 264px;
   color: white;
 }
-.projects:visited
-{
+.contacttag {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  text-decorations: none;
+  font-size: 20px;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
+.contactme:link {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 20px;
   color: white;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
-.projects:hover
-{
-  color: navy;
+.contactme:visited {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 20px;
+  color: white;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
-.projects:active
-{
+.contactme:hover {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 20px;
   color: navy;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
+.contactme:active {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 20px;
+  color: navy;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 @keyframes exitiumglow {
   from {
