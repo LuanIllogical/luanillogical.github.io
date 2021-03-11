@@ -7,6 +7,11 @@ body
   text-align: center;
   color: white;
 }
+.thebox
+{
+  padding-left: 10px;
+  paddin-right: 10px;
+}
 .text2
 {
   font-family: Noto Sans, sans-serif;
