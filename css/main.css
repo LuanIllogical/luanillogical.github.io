@@ -23,6 +23,19 @@ body
   font-size: 24px;
   animation: textglow 5s ease-in-out infinite alternate;
 }
+.youwhen {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  position: relative;
+  top: 20px;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
 .mewhen:link {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
