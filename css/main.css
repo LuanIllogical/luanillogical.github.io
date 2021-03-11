@@ -23,6 +23,42 @@ body
   font-size: 24px;
   animation: textglow 5s ease-in-out infinite alternate;
 }
+.mewhen:link {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 30px;
+  color: white;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
+.mewhen:hover {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 30px;
+  color: navy;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
+.mewhen:active {
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decorations: none;
+  font-size: 30px;
+  color: navy;
+  animation: textglow 2s ease-in-out infinite alternate;
+}
 .horizontalgap
 {
   padding-right: 264px;
