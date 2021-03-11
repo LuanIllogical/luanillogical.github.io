@@ -99,6 +99,10 @@ body
 {
   color: white;
 }
+.projects:visited
+{
+  color: white;
+}
 .projects:hover
 {
   color: navy;
