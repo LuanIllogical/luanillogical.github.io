@@ -36,9 +36,15 @@ body
 }
 .projects:link
 {
-  padding-right: 264px;
-  padding-left: 264px;
   color: white;
+}
+.projects:hover
+{
+  color: navy;
+}
+.projects:active
+{
+  color: navy;
 }
 .contacttag {
   font-family: Noto Sans, sans-serif;
