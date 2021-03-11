@@ -35,7 +35,6 @@ body
   position: relative;
   top: 20px;
   animation: textglow 2s ease-in-out infinite alternate;
-  box-sizing: border-box;
 }
 .mewhen:link {
   font-family: Noto Sans, sans-serif;
