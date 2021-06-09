@@ -1,4 +1,4 @@
-function(){
+(function(){
     var canvas=document.getElementById("body");
     var ctx=canvas.getContext("2d");
     var spawnLineY=25;
