@@ -26,6 +26,7 @@ body
 .topbar a:hover
 {
   background-color: #8082d1;
+  color: black;
 }
 .topbar a.current
 {
