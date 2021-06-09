@@ -11,7 +11,7 @@ body
 .topbar
 {
   overflow: hidden;
-  background-color: black; 
+  background-color: #000357; 
 }
 .topbar a
 {
@@ -42,6 +42,7 @@ body
 }
 .thetext
 {
+  background-color: black;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
