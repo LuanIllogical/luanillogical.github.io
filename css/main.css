@@ -7,6 +7,30 @@ body
   text-align: center;
   color: white;
 }
+.topbar
+{
+  overflow: hidden;
+  background-color: #000357; 
+}
+.topbar a
+{
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  float: right;
+  color: white;
+  padding: 12px 12px;
+  font-size 16px;
+}
+.topbar a:hover
+{
+  background-color: #8082d1;
+  color: black;
+}
+.topbar a.active
+{
+  background-color: #4d4fa3;
+  color:white;
+}
 .text2
 {
   font-family: Noto Sans, sans-serif;
