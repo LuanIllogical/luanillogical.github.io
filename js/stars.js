@@ -2,8 +2,8 @@ window.onload = function() {
       // Initialise an empty canvas and place it on the page
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
-      canvas.width = 800;
-      canvas.height = 500;
+      //canvas.width = 800;
+      //canvas.height = 500;
       document.body.appendChild(canvas);
 
       // Fill the canvas with a black background to show where it is
