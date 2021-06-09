@@ -25,12 +25,10 @@ body
 .topbar a:hover
 {
   background-color: #8082d1;
-  color: black;
 }
-.topbar a.active
+.topbar a.current
 {
   background-color: #4d4fa3;
-  color:white;
 }
 .text2
 {
@@ -42,7 +40,6 @@ body
 }
 .thetext
 {
-  background-color: black;
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   font-weight: 400;
