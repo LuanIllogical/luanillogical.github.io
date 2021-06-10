@@ -14,6 +14,7 @@ window.onload = function() {
       }
       //Placeholder
       context.fillRect(0, 0, canvas.width, canvas.height);
+      
       var particles = {},
           particleIndex = 0,
           settings = {
@@ -26,21 +27,23 @@ window.onload = function() {
         // Establish starting positions and velocities
         this.x = Math.floor(Math.random() * canvas.width);
         this.y = Math.floor(Math.random() * canvas.height);
-        this.oldScale = 1;
 
-        // Add new particle to the index
-        // Object used as it's simpler to manage that an array
         particleIndex ++;
         particles[particleIndex] = this;
         this.id = particleIndex;
         this.life = 0;
-        this.maxLife = 100;
+        this.lifeTick = 0;
+        this.maxLife = Math.floor(Math.random * 20) + 10;
       }
 
       // Some prototype methods for the particle's "draw" function
       Particle.prototype.draw = function() {
-        // Age the particle
-        this.life++;
+        this.lifeTick++;
+        if (this.lifeTick >= 3) {
+              this.life++;
+              this.lifeTick = 0;
+        }
+
 
         // If Particle is old, it goes in the chamber for renewal
         if (this.life >= this.maxLife) {
@@ -50,16 +53,12 @@ window.onload = function() {
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
-        context.moveTo(this.x + Math.round(20 * this.life / this.lifeMax), this.y);
+        context.moveTo(this.x + this.life);
         context.lineTo(this.x, this.y + 20);
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);   
         context.closePath(); 
         context.fill();
-        this.oldScale = 2;
-        console.log("a");
-        console.log(this.life / this.lifeMax);
-        console.log(20 * this.life / this.lifeMax);
       }
 
       setInterval(function() {
