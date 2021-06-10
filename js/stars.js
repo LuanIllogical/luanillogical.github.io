@@ -54,8 +54,8 @@ window.onload = function() {
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
         context.closePath();
-        context.fill();
         context.scale(2, 2);
+        context.fill();
       }
 
       setInterval(function() {
