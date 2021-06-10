@@ -18,7 +18,7 @@ body
 }
 .topbar
 {
-  overflow: hidden;
+  overflow: scroll;
   background-color: #010330;
   margin: 0;
 }
