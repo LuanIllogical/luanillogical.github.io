@@ -21,22 +21,22 @@ body
 }
 
 ::-webkit-scrollbar-track {
-  background: #030e4d;
+  background: #1a1a1ad;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #194191;
+  background: #2b2b2b;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0a2682;
+  background: #454545;
 }
 .topbar
 {
   overflow: hidden;
   background-color: #010330;
   width: 100;
-  margin: 0;
+  margin-left: -12px;
   padding: 0;
 }
 .topbar a
