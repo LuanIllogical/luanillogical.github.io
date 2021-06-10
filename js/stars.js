@@ -53,7 +53,7 @@ window.onload = function() {
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
-        context.moveTo(this.x + this.life);
+        context.moveTo(this.x + this.life, this.y);
         context.lineTo(this.x, this.y + 20);
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);   
