@@ -46,16 +46,15 @@ window.onload = function() {
           delete particles[this.id];
         }
 
-        // Create the shapes
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
-        //context.arc(this.x, this.y, settings.particleSize, 0, Math.PI*2, true); 
         context.moveTo(this.x + 20, this.y);
         context.lineTo(this.x, this.y + 20);
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
         context.closePath();
+        context.scale(this.life / this.maxLife, this.life / this.maxLife);
         context.fill();
 
       }
@@ -63,21 +62,13 @@ window.onload = function() {
       setInterval(function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the particles
-        for (var i = 0; i < settings.density; i++) {
-          if (Math.random() > 0.97) {
-            // Introducing a random chance of creating a particle
-            // corresponding to an chance of 1 per second,
-            // per "density" value
-            new Particle();
-          }
-        }
+ 
+        new Particle();
 
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 30);
+      }, 333);
 
 /*
       var particles = {},
@@ -120,7 +111,6 @@ window.onload = function() {
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
         context.closePath();
-        //context.scale(this.life / this.maxLife, this.life / this.maxLife);
         context.fill();
 
       }
