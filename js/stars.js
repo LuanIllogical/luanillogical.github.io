@@ -2,6 +2,8 @@ window.onload = function() {
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       canvas.width = window.innerWidth;
+      canvas.style.width = window.innerWidth;
+      canvas.style.height = window.innerHeight;
       canvas.height = window.innerHeight;
       document.body.appendChild(canvas);
       
@@ -14,11 +16,7 @@ window.onload = function() {
       context.fillRect(0, 0, canvas.width, canvas.height);
 
       var particles = {},
-          particleIndex = 0,
-          settings = {
-            density: 20,
-            particleSize: 10,
-          };
+          particleIndex = 0;
 
       function Particle() {
         this.x = Math.floor(Math.random() * canvas.width);
@@ -65,20 +63,10 @@ window.onload = function() {
       setInterval(function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the particles
-        for (var i = 0; i < settings.density; i++) {
-          if (Math.random() > 0.97) {
-            // Introducing a random chance of creating a particle
-            // corresponding to an chance of 1 per second,
-            // per "density" value
-            new Particle();
-          }
-        }
-
+        new Particle();
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 30);
+      }, 333);
 
 };
