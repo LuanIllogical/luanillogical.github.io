@@ -52,11 +52,12 @@ window.onload = function() {
         context.fillStyle="#ffffff";
         context.moveTo(this.x + Math.round(20 * this.life / this.lifeMax), this.y);
         context.lineTo(this.x, this.y + 20);
-        context.lineTo(this.x - Math.floor(20 * this.life / this.lifeMax), this.y);
+        context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);   
         context.closePath(); 
         context.fill();
         this.oldScale = 2;
+        console.log(Math.round(20 * this.life / this.lifeMax));
       }
 
       setInterval(function() {
