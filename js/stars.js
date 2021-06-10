@@ -55,7 +55,7 @@ window.onload = function() {
         context.lineTo(this.x, this.y - 20);
         context.closePath();
         context.fill();
-        context.scale(this.life / this.maxLife, this.life / this.maxLife);
+        context.scale(2, 2);
       }
 
       setInterval(function() {
