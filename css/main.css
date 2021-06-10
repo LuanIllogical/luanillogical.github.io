@@ -2,15 +2,16 @@
 html
 {
   margin: 0;
+  margin-right: 12px;
   padding: 0;
 }
 body 
 {
-  overflow: auto;
+  overflow: overlay;
   background-color: white;
   margin: 0;
-  width: 100;
-  height: 100;
+  width: 100%;
+  height: 100%;
   text-align: center;
   color: white;
 }
