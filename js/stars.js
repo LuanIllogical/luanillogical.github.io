@@ -57,6 +57,8 @@ window.onload = function() {
         context.closePath(); 
         context.fill();
         this.oldScale = 2;
+        console.log("a");
+        console.log(this.life / this.lifeMax);
         console.log(20 * this.life / this.lifeMax);
       }
 
