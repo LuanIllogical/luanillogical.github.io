@@ -16,7 +16,11 @@ window.onload = function() {
       context.fillRect(0, 0, canvas.width, canvas.height);
       
       var particles = {},
-          particleIndex = 0;
+          particleIndex = 0,
+          settings = {
+            density: 20,
+            particleSize: 10,
+          };
 
       function Particle() {
         this.x = Math.floor(Math.random() * canvas.width);
@@ -43,10 +47,10 @@ window.onload = function() {
               this.dying = true;
               this.life--;
         }
-        if (this.life <= 0 && this.dying) {
+        if (this.life <= 0 && this.dying == true) {
           delete particles[this.id];
         }
-
+        context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
