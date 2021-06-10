@@ -47,7 +47,6 @@ window.onload = function() {
           delete particles[this.id];
         }
 
-        context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
