@@ -17,11 +17,11 @@ body
 {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
+  font-size 16px;
   color: white;
   float: right;
   text-decoration: none;
   padding: 12px 12px;
-  font-size 16px;
 }
 .topbar a:hover
 {
