@@ -26,6 +26,7 @@ window.onload = function() {
         // Establish starting positions and velocities
         this.x = Math.floor(Math.random() * canvas.width);
         this.y = Math.floor(Math.random() * canvas.height);
+        this.oldScale = 1;
 
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
@@ -47,15 +48,15 @@ window.onload = function() {
         }
 
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
-        context.setTransform(1, 0, 0, 1, 0 ,0);
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + 20, this.y);
         context.lineTo(this.x, this.y + 20);
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
+        context.scale(2, 2);    
         context.closePath();
-        context.scale(2, 2);
+        //context.scale(1 / this.oldScale, 1 / this.oldScale);    
         context.fill();
       }
 
