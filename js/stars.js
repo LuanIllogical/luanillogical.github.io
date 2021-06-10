@@ -54,9 +54,9 @@ window.onload = function() {
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
-        context.lineTo(this.x, this.y + 20);
-        context.lineTo(this.x - 20, this.y);
-        context.lineTo(this.x, this.y - 20);   
+        context.lineTo(this.x, this.y + this.life);
+        context.lineTo(this.x - this.life, this.y);
+        context.lineTo(this.x, this.y - this.life);   
         context.closePath(); 
         context.fill();
       }
