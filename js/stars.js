@@ -11,13 +11,9 @@ window.onload = function() {
       canvas.height = window.innerHeight;
       document.body.appendChild(canvas);
       
+      //Placeholder
       context.fillRect(0, 0, canvas.width, canvas.height);
-      
-      var posX = 20,
-          posY = canvas.height / 2;
 
-      // No longer setting velocites as they will be random
-      // Set up object to contain particles and set some default values
       var particles = {},
           particleIndex = 0,
           settings = {
@@ -25,28 +21,30 @@ window.onload = function() {
             particleSize: 10,
           };
 
-      // Set up a function to create multiple particles
       function Particle() {
-        // Establish starting positions and velocities
         this.x = Math.floor(Math.random() * canvas.width);
         this.y = Math.floor(Math.random() * canvas.height);
 
-        // Add new particle to the index
-        // Object used as it's simpler to manage that an array
-        particleIndex ++;
+        particleIndex++;
         particles[particleIndex] = this;
         this.id = particleIndex;
         this.life = 0;
         this.maxLife = 100;
+        this.dying = false;
       }
 
       // Some prototype methods for the particle's "draw" function
       Particle.prototype.draw = function() {
-        // Age the particle
-        this.life++;
+        if (this.life < this.maxlife && this.dying == false) {
+              this.life++;
+        }
+        else {
+              this.dying = true;
+              this.life--;
+        }
 
         // If Particle is old, it goes in the chamber for renewal
-        if (this.life >= this.maxLife) {
+        if (this.life <= 0 && this.dying == true) {
           delete particles[this.id];
         }
 
@@ -60,6 +58,7 @@ window.onload = function() {
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
         context.closePath();
+        context.scale(this.life / this.maxLife, this.life / this.maxLife);
         context.fill();
 
       }
