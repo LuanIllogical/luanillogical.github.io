@@ -1,5 +1,5 @@
 window.onresize = function() {
-      var canvas = document.getElementById("canvas");
+      var canvas = document.getElementByName("canvas");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 };
