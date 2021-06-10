@@ -59,6 +59,7 @@ window.onload = function() {
         context.lineTo(this.x, this.y - this.life);   
         context.closePath(); 
         context.fill();
+        console.log(this.life);
       }
 
       setInterval(function() {
