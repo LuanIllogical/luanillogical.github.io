@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap");
 html
 {
+  overflow: visible;
   margin: 0;
   padding: 0;
   width: 100;
@@ -8,7 +9,6 @@ html
 }
 body 
 {
-  overflow: hidden;
   background-color: white;
   margin: 0;
   margin-left: auto;
@@ -20,7 +20,6 @@ body
 }
 .topbar
 {
-  overflow: hidden;
   background-color: #010330;
   margin: 0;
   padding: 0;
