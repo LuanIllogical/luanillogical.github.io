@@ -18,7 +18,6 @@ body
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   float: right;
-  color: white;
   text-decoration: none;
   padding: 12px 12px;
   font-size 16px;
@@ -26,7 +25,6 @@ body
 .topbar a:hover
 {
   background-color: #8082d1;
-  color: black;
 }
 .topbar a.current
 {
