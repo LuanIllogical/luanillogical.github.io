@@ -6,7 +6,7 @@ html
 }
 body 
 {
-  overflow: hidden;
+  overflow: auto;
   background-color: white;
   margin: 0;
   margin-left: auto;
