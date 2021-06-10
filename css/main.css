@@ -12,6 +12,7 @@ body
 {
   overflow: hidden;
   background-color: #010330; 
+  color: white;
 }
 .topbar a
 {
@@ -20,7 +21,6 @@ body
   float: right;
   text-decoration: none;
   padding: 12px 12px;
-  color: white;
   font-size 16px;
 }
 .topbar a:hover
