@@ -16,11 +16,7 @@ window.onload = function() {
       context.fillRect(0, 0, canvas.width, canvas.height);
       
       var particles = {},
-          particleIndex = 0,
-          settings = {
-            density: 20,
-            particleSize: 10,
-          };
+          particleIndex = 0;
 
       function Particle() {
         this.x = Math.floor(Math.random() * canvas.width);
@@ -32,19 +28,22 @@ window.onload = function() {
         this.life = 0;
         this.lifeTick = 0;
         this.maxLife = Math.floor(Math.random() * 20) + 10;
+        this.dying = false;
       }
 
-      // Some prototype methods for the particle's "draw" function
       Particle.prototype.draw = function() {
-        this.lifeTick++;
-        if (this.lifeTick >= 3) {
-              this.life++;
-              this.lifeTick = 0;
+        if (this.life < this.lifeMax && this.dying == false) {
+            this.lifeTick++;
+            if (this.lifeTick >= 3) {
+                  this.life++;
+                  this.lifeTick = 0;
+            }
         }
-
-
-        // If Particle is old, it goes in the chamber for renewal
-        if (this.life >= this.maxLife) {
+        else {
+              this.dying = true;
+              this.life--;
+        }
+        if (this.life <= 0 && this.dying) {
           delete particles[this.id];
         }
 
