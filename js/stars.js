@@ -50,12 +50,10 @@ window.onload = function() {
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
-        context.moveTo(this.x + 20, this.y);
-        context.lineTo(this.x, this.y + 20);
-        context.lineTo(this.x - 20, this.y);
-        context.lineTo(this.x, this.y - 20);   
-        context.scale(1 / this.oldScale, 1 / this.oldScale); 
-        context.scale(2, 2);
+        context.moveTo(this.x + (20 * (this.life / this.lifeMax)), this.y);
+        context.lineTo(this.x, this.y + (20 * (this.life / this.lifeMax)));
+        context.lineTo(this.x - (20 * (this.life / this.lifeMax)), this.y);
+        context.lineTo(this.x, this.y - (20 * (this.life / this.lifeMax)));   
         context.closePath(); 
         context.fill();
         this.oldScale = 2;
