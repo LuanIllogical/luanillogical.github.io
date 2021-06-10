@@ -47,6 +47,7 @@ window.onload = function() {
         }
 
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
+        context.setTransform(1, 0, 0, 1, 0 ,0);
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + 20, this.y);
