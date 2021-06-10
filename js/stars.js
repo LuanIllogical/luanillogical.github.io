@@ -17,9 +17,8 @@ window.onload = function() {
           settings = {
             density: 20,
             particleSize: 10,
-            startingX: canvas.width / 2,
-            startingY: canvas.height / 4,
-            gravity: 0.5
+            startingX: Math.floor(Math.random() * canvas.width),
+            startingY: Math.floor(Math.random() * canvas.height),
           };
 
       // Set up a function to create multiple particles
@@ -45,9 +44,6 @@ window.onload = function() {
       Particle.prototype.draw = function() {
         this.x += this.vx;
         this.y += this.vy;
-
-        // Adjust for gravity
-        this.vy += settings.gravity;
 
         // Age the particle
         this.life++;
