@@ -63,12 +63,19 @@ window.onload = function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
  
-        new Particle();
+          for (var i = 0; i < settings.density; i++) {
+          if (Math.random() > 0.97) {
+            // Introducing a random chance of creating a particle
+            // corresponding to an chance of 1 per second,
+            // per "density" value
+            new Particle();
+          }
+        }
 
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 333);
+      }, 33);
 
 /*
       var particles = {},
