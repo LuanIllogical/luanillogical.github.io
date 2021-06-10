@@ -1,9 +1,3 @@
-window.onresize = function() {
-      var canvas = document.getElementById("canvas");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-};
-
 window.onload = function() {
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
@@ -11,6 +5,11 @@ window.onload = function() {
       canvas.height = window.innerHeight;
       document.body.appendChild(canvas);
       
+      window.addEventListener('resize', onresize, false);
+      function onresize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+      }
       //Placeholder
       context.fillRect(0, 0, canvas.width, canvas.height);
 
