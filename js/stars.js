@@ -33,7 +33,7 @@ window.onload = function() {
         this.id = particleIndex;
         this.life = 0;
         this.lifeTick = 0;
-        this.maxLife = Math.floor(Math.random * 20) + 10;
+        this.maxLife = Math.floor(Math.random() * 20) + 10;
       }
 
       // Some prototype methods for the particle's "draw" function
