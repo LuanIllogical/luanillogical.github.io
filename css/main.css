@@ -16,6 +16,21 @@ body
   text-align: center;
   color: white;
 }
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030e4d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #194191;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0a2682;
+}
 .topbar
 {
   overflow: hidden;
