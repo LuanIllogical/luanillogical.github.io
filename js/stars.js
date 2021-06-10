@@ -54,10 +54,13 @@ window.onload = function() {
         context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.fillStyle="#ffffff";
         context.beginPath();
+        context.arc(this.x, this.y, settings.particleSize, 0, Math.PI*2, true); 
+            /*
         context.moveTo(this.x + 20, this.y);
         context.moveTo(this.x, this.y + 20);
         context.moveTo(this.x - 20, this.y);
         context.moveTo(this.x, this.y - 20);
+        */
         context.closePath();
         context.fill();
 
