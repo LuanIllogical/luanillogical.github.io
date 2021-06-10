@@ -54,7 +54,7 @@ window.onload = function() {
         context.lineTo(this.x - 20, this.y);
         context.lineTo(this.x, this.y - 20);
         context.closePath();
-        context.scale(this.life / this.maxLife, this.life / this.maxLife);
+        //context.scale(this.life / this.maxLife, this.life / this.maxLife);
         context.fill();
 
       }
@@ -75,7 +75,7 @@ window.onload = function() {
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 33);
+      }, 30);
 
 /*
       var particles = {},
