@@ -27,10 +27,6 @@ window.onload = function() {
         this.x = settings.startingX;
         this.y = settings.startingY;
 
-        // Determine original X-axis speed based on setting limitation
-        this.vx = Math.random() * 20 - 10;
-        this.vy = Math.random() * 20 - 5;
-
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
         particleIndex ++;
@@ -42,9 +38,6 @@ window.onload = function() {
 
       // Some prototype methods for the particle's "draw" function
       Particle.prototype.draw = function() {
-        this.x += this.vx;
-        this.y += this.vy;
-
         // Age the particle
         this.life++;
 
