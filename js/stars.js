@@ -60,6 +60,7 @@ window.onload = function() {
         context.closePath(); 
         context.fill();
         console.log(this.lifeMax);
+        console.log(this.dying);
       }
 
       setInterval(function() {
