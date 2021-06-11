@@ -13,8 +13,6 @@ window.onload = function() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
       }
-      //Placeholder
-      context.fillRect(0, 0, canvas.width, canvas.height);
       
       var particles = {},
           particleIndex = 0;
@@ -67,8 +65,6 @@ window.onload = function() {
       }
 
       setInterval(function() {
-        context.fillStyle = "rgba(10,10,10,0.8)";
-        context.fillRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
         if (starSpawnTick >= 16 && Math.random() > 0.35) {
               starSpawnTick -= 16;
