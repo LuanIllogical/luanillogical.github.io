@@ -31,7 +31,7 @@ window.onload = function() {
         this.id = particleIndex;
         this.life = 0;
         this.lifeTick = 0;
-        this.maxLife = Math.floor(Math.random() * 20) + 10;
+        this.lifeMax = Math.floor(Math.random() * 20) + 10;
         this.dying = false;
       }
 
@@ -45,7 +45,11 @@ window.onload = function() {
         }
         else {
               this.dying = true;
-              this.life--;
+              this.lifeTick++;
+              if (this.lifeTick >= 3) {
+                    this.life--;
+                    this.lifeTick = 0;
+            }
         }
         if (this.life <= 0 && this.dying == true) {
           delete particles[this.id];
@@ -54,9 +58,13 @@ window.onload = function() {
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
+        context.lineTo(this.x + (this.life / 2), this.y + (this.life / 2));
         context.lineTo(this.x, this.y + this.life);
+        context.lineTo(this.x -(this.life / 2), this.y + (this.life / 2));
         context.lineTo(this.x - this.life, this.y);
-        context.lineTo(this.x, this.y - this.life);   
+        context.lineTo(this.x + (this.life / 2), this.y -(this.life / 2));
+        context.lineTo(this.x, this.y - this.life);
+        context.lineTo(this.x -(this.life / 2), this.y + (this.life / 2));
         context.closePath(); 
         context.fill();
         console.log(this.lifeMax);
