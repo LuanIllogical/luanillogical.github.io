@@ -1,6 +1,7 @@
 window.onload = function() {
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
+      var starSpawnTick = 0;
       canvas.width = window.innerWidth;
       canvas.style.width = window.innerWidth;
       canvas.style.height = window.innerHeight;
@@ -75,7 +76,9 @@ window.onload = function() {
       setInterval(function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
-        if (Math.random() > 0.35) {
+        starSpawnTick++;
+        if (starSpawnTick >= 7 Math.random() > 0.35) {
+              starSpawnTick -= 7;
               new Particle();
         }
         for (var i in particles) {
