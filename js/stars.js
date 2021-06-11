@@ -69,8 +69,6 @@ window.onload = function() {
         context.lineTo(this.x + (this.life / this.yeaCat), this.y - (this.life / this.yeaCat));
         context.closePath(); 
         context.fill();
-        console.log(this.lifeMax);
-        console.log(this.dying);
       }
 
       setInterval(function() {
