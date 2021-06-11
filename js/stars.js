@@ -65,6 +65,7 @@ window.onload = function() {
       }
 
       setInterval(function() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
         if (starSpawnTick >= 16 && Math.random() > 0.35) {
               starSpawnTick -= 16;
