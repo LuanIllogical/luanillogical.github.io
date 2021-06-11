@@ -24,11 +24,11 @@ body
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #343563;
+  background: #39407d;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #39407d;
+  background: #343563;
 }
 .topbar
 {
