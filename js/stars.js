@@ -17,11 +17,7 @@ window.onload = function() {
       context.fillRect(0, 0, canvas.width, canvas.height);
       
       var particles = {},
-          particleIndex = 0,
-          settings = {
-            density: 20,
-            particleSize: 10,
-          };
+          particleIndex = 0;
 
       function Particle() {
         this.x = Math.floor(Math.random() * canvas.width);
@@ -32,7 +28,7 @@ window.onload = function() {
         this.id = particleIndex;
         this.life = 0;
         this.lifeTick = 0;
-        this.lifeMax = Math.floor(Math.random() * 20) + 10;
+        this.lifeMax = Math.floor(Math.random() * 20) + 16;
         this.dying = false;
         this.yeaCat = Math.floor(Math.random() * 2) + 5;
       }
@@ -56,7 +52,6 @@ window.onload = function() {
         if (this.life <= 0 && this.dying == true) {
           delete particles[this.id];
         }
-        context.clearRect(settings.leftWall, settings.groundLevel, canvas.width, canvas.height);
         context.beginPath();
         context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
@@ -67,7 +62,7 @@ window.onload = function() {
         context.lineTo(this.x -(this.life / this.yeaCat), this.y - (this.life / this.yeaCat));
         context.lineTo(this.x, this.y - this.life);
         context.lineTo(this.x + (this.life / this.yeaCat), this.y - (this.life / this.yeaCat));
-        context.closePath(); 
+        context.closePath();
         context.fill();
       }
 
@@ -75,12 +70,12 @@ window.onload = function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
-        if (starSpawnTick >= 7 && Math.random() > 0.35) {
-              starSpawnTick -= 7;
+        if (starSpawnTick >= 16 && Math.random() > 0.35) {
+              starSpawnTick -= 16;
               new Particle();
         }
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 30);
+      }, 24);
 };
