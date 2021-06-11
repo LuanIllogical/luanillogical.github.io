@@ -75,7 +75,7 @@ window.onload = function() {
         context.fillStyle = "rgba(10,10,10,0.8)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
-        if (starSpawnTick >= 7 Math.random() > 0.35) {
+        if (starSpawnTick >= 7 && Math.random() > 0.35) {
               starSpawnTick -= 7;
               new Particle();
         }
