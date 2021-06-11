@@ -33,7 +33,7 @@ window.onload = function() {
         this.lifeTick = 0;
         this.lifeMax = Math.floor(Math.random() * 20) + 10;
         this.dying = false;
-        this.yeaCat = Math.floor(Math.random() * 3) + 4;
+        this.yeaCat = Math.floor(Math.random() * 2) + 5;
       }
 
       Particle.prototype.draw = function() {
@@ -81,5 +81,5 @@ window.onload = function() {
         for (var i in particles) {
           particles[i].draw();
         }
-      }, 200);
+      }, 30);
 };
