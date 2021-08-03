@@ -2,7 +2,6 @@ window.onload = function() {
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       var starSpawnTick = 0;
-      var starSpawnTickCap = 16 * Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight) / 1000
       canvas.width = window.innerWidth;
       canvas.style.width = window.innerWidth;
       canvas.style.height = window.innerHeight;
@@ -63,10 +62,11 @@ window.onload = function() {
         context.lineTo(this.x + (this.life / this.yeaCat), this.y - (this.life / this.yeaCat));
         context.closePath();
         context.fill();
-        console.log(starSpawnTickCap);
       }
 
       setInterval(function() {
+        var starSpawnTickCap = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight) * 1000 / 16;
+        console.log(starSpawnTickCap);
         context.clearRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
         if (starSpawnTick >= starSpawnTickCap && Math.random() > 0.35) {
