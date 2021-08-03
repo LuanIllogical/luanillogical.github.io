@@ -1,17 +1,17 @@
 window.onload = function() {
-      var canvas = document.body;//document.createElement("canvas");
+      var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       var starSpawnTick = 0;
-      canvas.width = window.innerWidth;
-      canvas.style.width = window.innerWidth;
-      canvas.style.height = window.innerHeight;
-      canvas.height = window.innerHeight;
+      canvas.width = document.body.clientWidth;
+      canvas.style.width = document.body.clientWidth;
+      canvas.style.height = document.body.clientHeight;
+      canvas.height = document.body.clientHeight;
       document.body.appendChild(canvas);
       
       window.addEventListener('resize', onresize, false);
       function onresize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = document.body.clientWidth;
+            canvas.height = document.body.clientHeight;
       }
       
       var particles = {},
