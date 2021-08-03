@@ -2,6 +2,8 @@ window.onload = function() {
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       var starSpawnTick = 0;
+      var theHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+      var starSpawnTickCap = 16 * theHeight / 1000
       canvas.width = window.innerWidth;
       canvas.style.width = window.innerWidth;
       canvas.style.height = window.innerHeight;
@@ -67,8 +69,8 @@ window.onload = function() {
       setInterval(function() {
         context.clearRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
-        if (starSpawnTick >= 16 && Math.random() > 0.35) {
-              starSpawnTick -= 16;
+        if (starSpawnTick >= starSpawnTickCap && Math.random() > 0.35) {
+              starSpawnTick -= starSpawnTickCap;
               new Particle();
         }
         for (var i in particles) {
