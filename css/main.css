@@ -67,6 +67,8 @@ body
   width: 550px;
   margin-right: 35px;
   margin-left: 35px;
+  color: white;
+  animation: textglow 2s ease-in-out infinite alternate;
 }
 .sectiontitle {
   font-family: Noto Sans, sans-serif;
@@ -76,37 +78,30 @@ body
 }
 .title {
   font-size: 28px;
-  animation: textglow 2s ease-in-out infinite alternate;
 }
 .title:link {
   font-size: 28px;
-  animation: textglow 2s ease-in-out infinite alternate;
   text-decorations: none;
 }
 .title:visited {
   font-size: 28px;
-  animation: textglow 2s ease-in-out infinite alternate;
   text-decorations: none;
 }
 .title:hover {
   font-size: 28px;
-  animation: textglow 2s ease-in-out infinite alternate;
   text-decorations: none;
 }
 .title:active {
   font-size: 28px;
-  animation: textglow 2s ease-in-out infinite alternate;
   text-decorations: none;
 }
 .undertitle {
   font-size: 18px;
-  animation: textglow 2s ease-in-out infinite alternate;
   position: relative;
   bottom: 27px;
 }
 .description {
   font-size: 20px;
-  animation: textglow 2s ease-in-out infinite alternate;
   position: relative;
   bottom: 29px;
 }
