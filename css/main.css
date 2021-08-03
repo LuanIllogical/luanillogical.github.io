@@ -82,23 +82,27 @@ body
 .title:link {
   font-size: 28px;
   text-decorations: none;
+  color: white;
 }
 .title:visited {
   font-size: 28px;
   text-decorations: none;
+  color: white;
 }
 .title:hover {
   font-size: 28px;
   text-decorations: none;
+  color: white;
 }
 .title:active {
   font-size: 28px;
   text-decorations: none;
+  color: white;
 }
 .undertitle {
   font-size: 18px;
   position: relative;
-  bottom: 27px;
+  bottom: 26px;
 }
 .description {
   font-size: 20px;
