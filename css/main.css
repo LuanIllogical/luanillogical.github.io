@@ -91,17 +91,17 @@ body
 .title:hover {
   font-size: 28px;
   text-decorations: none;
-  color: white;
+  color: black;
 }
 .title:active {
   font-size: 28px;
   text-decorations: none;
-  color: white;
+  color: black;
 }
 .undertitle {
   font-size: 18px;
   position: relative;
-  bottom: 26px;
+  bottom: 24px;
 }
 .description {
   font-size: 20px;
