@@ -91,12 +91,12 @@ body
 .title:hover {
   font-size: 28px;
   text-decorations: none;
-  color: black;
+  color: darkblue;
 }
 .title:active {
   font-size: 28px;
   text-decorations: none;
-  color: black;
+  color: darkblue;
 }
 .undertitle {
   font-size: 18px;
