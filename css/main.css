@@ -58,6 +58,16 @@ body
 {
   background-color: #4d4fa3;
 }
+.projectdiv
+{
+  font-family: Noto Sans, sans-serif;
+  font-style: normal;
+  display: inline-block;
+  text-ailgn: center;
+  width: 700px;
+  margin-right: 35px;
+  margin-left: 35px;
+}
 .text2
 {
   font-family: Noto Sans, sans-serif;
