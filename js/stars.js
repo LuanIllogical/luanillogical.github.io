@@ -1,5 +1,5 @@
 window.onload = function() {
-      var canvas = document.createElement("canvas");
+      var canvas = document.getElementById('thecanvas');;
       var context = canvas.getContext("2d");
       var starSpawnTick = 0;
       canvas.width = window.innerWidth;
