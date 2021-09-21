@@ -31,19 +31,8 @@ body
 ::-webkit-scrollbar-thumb:hover {
   background: #2d2d69;
 }
-#theCanvas
-{
-  position: relative;
-  z-index: -1;
-}
-.theCanvas
-{
-  position: relative;
-  z-index: -1;
-}
 .topbar
 {
-  z-index: 3;
   overflow: hidden;
   background-color: #010330;
   width: 100%;
