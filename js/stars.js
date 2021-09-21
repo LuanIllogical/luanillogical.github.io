@@ -51,7 +51,7 @@ window.onload = function() {
           delete particles[this.id];
         }
         context.beginPath();
-        context.fillStyle="#ffffff";
+        //context.fillStyle="#ffffff";
         context.moveTo(this.x + this.life, this.y);
         context.lineTo(this.x + (this.life / this.yeaCat), this.y + (this.life / this.yeaCat));
         context.lineTo(this.x, this.y + this.life);
