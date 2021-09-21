@@ -67,7 +67,7 @@ window.onload = function() {
       setInterval(function() {
         var starSpawnTickCap = 16000 / Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
         console.log(starSpawnTickCap);
-        //context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvas.width, canvas.height);
         starSpawnTick++;
         if (starSpawnTick >= starSpawnTickCap && Math.random() > 0.35) {
               starSpawnTick -= starSpawnTickCap;
