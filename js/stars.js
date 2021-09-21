@@ -62,7 +62,6 @@ window.onload = function() {
         context.lineTo(this.x + (this.life / this.yeaCat), this.y - (this.life / this.yeaCat));
         context.closePath();
         context.fill();
-        document.body.style.background = "url(" + canvas.toDataURL() + ")";
       }
 
       setInterval(function() {
