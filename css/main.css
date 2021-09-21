@@ -31,6 +31,10 @@ body
 ::-webkit-scrollbar-thumb:hover {
   background: #2d2d69;
 }
+#theStars
+{
+  z-index: -1;
+}
 .topbar
 {
   z-index: 3;
