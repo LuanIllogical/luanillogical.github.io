@@ -33,6 +33,7 @@ body
 }
 #theStars
 {
+  position: relative;
   z-index: -1;
 }
 .topbar
