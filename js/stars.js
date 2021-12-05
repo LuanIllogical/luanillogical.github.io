@@ -1,4 +1,3 @@
-/*
 window.onload = function() {
       var canvas = document.getElementById('theStars');
       var context = canvas.getContext("2d");
@@ -79,4 +78,3 @@ window.onload = function() {
         }
       }, 24);
 };
-*/
