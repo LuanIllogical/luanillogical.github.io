@@ -6,15 +6,12 @@ html
 }
 body 
 {
+  background-color: black;
   overflow: overlay;
-  background-image: url('skybackground.png');
-  background-repeat: no-repeat;
-  background-size: cover;
   margin: 0;
   width: 100%;
   height: 100%;
   text-align: center;
-  color: white;
 }
 ::-webkit-scrollbar {
   width: 12px;
@@ -31,256 +28,26 @@ body
 ::-webkit-scrollbar-thumb:hover {
   background: #2d2d69;
 }
-.topbar
-{
-  overflow: hidden;
-  background-color: #010330;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-.topbar a
-{
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-size 18px;
-  color: white;
-  float: right;
-  text-decoration: none;
-  padding: 12px 12px;
-}
-.topbar a:hover
-{
-  background-color: #8082d1;
-}
-.topbar a.current
-{
-  background-color: #4d4fa3;
-}
-.projectdiv
+.maintext
 {
   font-family: Noto Sans, sans-serif;
   font-style: normal;
   display: inline-block;
-  text-ailgn: center;
+  text-align: center;
   width: 550px;
   margin-right: 35px;
   margin-left: 35px;
   color: white;
-  animation: textglow 2s ease-in-out infinite alternate;
 }
-.sectiontitle {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-size: 40px;
-  animation: textglow 2s ease-in-out infinite alternate;
+.maintext a:link {
+  color: rgb(0, 153, 255);
 }
-.title {
-  font-size: 28px;
+.maintext a:visited {
+  color: rgb(0, 153, 255);
 }
-.title:link {
-  font-size: 28px;
-  text-decorations: none;
-  color: white;
+.maintext a:hover {
+  color: rgb(9, 73, 192);
 }
-.title:visited {
-  font-size: 28px;
-  text-decorations: none;
-  color: white;
-}
-.title:hover {
-  font-size: 28px;
-  text-decorations: none;
-  color: darkblue;
-}
-.title:active {
-  font-size: 28px;
-  text-decorations: none;
-  color: darkblue;
-}
-.undertitle {
-  font-size: 18px;
-  position: relative;
-  bottom: 22px;
-}
-.description {
-  font-size: 20px;
-  position: relative;
-  bottom: 30px;
-}
-.text2
-{
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 40px;
-  animation: textglow 5s ease-in-out infinite alternate;
-}
-.thetext
-{
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  animation: textglow 5s ease-in-out infinite alternate;
-}
-.youwhen {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  font-size: 20px;
-  color: white;
-  position: relative;
-  top: 10px;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.mewhen:link {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 30px;
-  color: white;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.mewhen:visited {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 30px;
-  color: white;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.mewhen:hover {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 30px;
-  color: navy;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.mewhen:active {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 30px;
-  color: navy;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.horizontalgap
-{
-  padding-right: 264px;
-  padding-left: 264px;
-  text-decorations: none;
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 32px;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.projects:link
-{
-  color: white;
-}
-.projects:visited
-{
-  color: white;
-}
-.projects:hover
-{
-  color: navy;
-}
-.projects:active
-{
-  color: navy;
-}
-.contacttag {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  text-decorations: none;
-  font-size: 20px;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.contactme:link {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 20px;
-  color: white;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.contactme:visited {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 20px;
-  color: white;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.contactme:hover {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 20px;
-  color: navy;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-.contactme:active {
-  font-family: Noto Sans, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-decorations: none;
-  font-size: 20px;
-  color: navy;
-  animation: textglow 2s ease-in-out infinite alternate;
-}
-@keyframes exitiumglow {
-  from {
-    text-shadow: 0 0 10px 15px #00c0ff;
-  }
-  to {
-    text-shadow: 0 0 10px 5px #00c0ff;
-  }
-}
-@keyframes textglow {
-  from {
-    text-shadow: 0 0 10px #ffffff, 0 0 25px #00c0ff;
-  }
-  to {   
-    text-shadow: 0 0 5px #ffffff, 0 0 12px #00c0ff;
-  }
+.maintext a:active {
+  color: rgb(9, 73, 192);
 }
