@@ -1,76 +1,91 @@
-const API_BASE = "https://luanillogical-github-io.vercel.app";
+const API_BASE = "https://gud-api.vercel.app";
 
 let otherRepos = [];
 let currentPage = 0;
 const pageSize = 6;
 
-document.getElementById("loadBtn").addEventListener("click", loadRepos);
+async function loadRepos(username) {
+  const res = await fetch(`${API_BASE}/api/repos?user=${username}`);
+  const data = await res.json();
+  console.log(data);
+  renderGroups(data.grouped);
 
-async function loadRepos() {
-    const user = document.getElementById("username").value;
+  otherRepos = data.other;
+  currentPage = 0;
 
-    const res = await fetch(`${API_BASE}/api/repos?user=${user}`);
-    const data = await res.json();
-    console.log(data);
-    renderGroups(data.grouped);
-
-    otherRepos = data.other;
-    currentPage = 0;
-
-    renderOther();
+  renderOther();
 }
 
 function renderGroups(groups) {
-    const container = document.getElementById("grouped");
-    container.innerHTML = "";
+  const container = document.getElementById("grouped");
+  container.innerHTML = "";
 
-    for (const [groupName, repos] of Object.entries(groups)) {
-        const section = document.createElement("div");
+  for (const [groupName, repos] of Object.entries(groups)) {
+    const section = document.createElement("div");
 
-        section.innerHTML = `<h2>${groupName}</h2>`;
+    section.innerHTML = `<h2>${groupName}</h2>`;
 
-        repos.forEach(repo => {
-            section.innerHTML += `
+    repos.forEach(repo => {
+      section.innerHTML += `
         <p>
           <a href="${repo.html_url}" target="_blank">
             ${repo.name}
           </a>
         </p>
       `;
-        });
+    });
 
-        container.appendChild(section);
-    }
+    container.appendChild(section);
+  }
 }
 
 function renderOther() {
-    const container = document.getElementById("other");
+  const container = document.getElementById("other");
 
-    container.innerHTML = "";
+  container.innerHTML = "";
 
-    const start = currentPage * pageSize;
-    const end = start + pageSize;
+  const start = currentPage * pageSize;
+  const end = start + pageSize;
 
-    const slice = otherRepos.slice(start, end);
+  const slice = otherRepos.slice(start, end);
 
-    slice.forEach(repo => {
-        container.innerHTML += `
+  slice.forEach(repo => {
+    container.innerHTML += `
       <p>
         <a href="${repo.html_url}" target="_blank">
           ${repo.name}
         </a>
       </p>
     `;
-    });
+  });
 
-    container.innerHTML += `
+  container.innerHTML += `
     <button onclick="nextPage()">Next</button>
   `;
 }
 
 function nextPage() {
-    if ((currentPage + 1) * pageSize < otherRepos.length) {
-        currentPage++;
-        renderOther();
-    }
+  if ((currentPage + 1) * pageSize < otherRepos.length) {
+    currentPage++;
+    renderOther();
+  }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("searchForm");
+  const input = document.getElementById("username");
+
+  if (!form) {
+    console.error("searchForm not found");
+    return;
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const user = input.value.trim();
+    if (!user) return;
+
+    loadRepos(user);
+  });
+});

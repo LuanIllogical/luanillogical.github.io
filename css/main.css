@@ -4,14 +4,72 @@ body {
   font-family: Noto Sans, sans-serif;
   color: white;
   background-color: black;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
-input {
-  padding: 8px;
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 320px;
+
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  padding: 6px 8px;
+  transition: 0.2s ease;
 }
 
-button {
-  padding: 8px 12px;
+.search-container:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.search-container input {
+  flex: 1;
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: white;
+  font-size: 14px;
+
+  padding: 8px 10px;
+}
+
+.search-container input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-btn {
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.search-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
 }
 
 li {

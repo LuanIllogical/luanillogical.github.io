@@ -4,13 +4,19 @@
 <head>
      <title>Github User Dossier</title>
      <link rel="stylesheet" href="/css/main.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
      <h1>GitHub User Dossier</h1>
 
-     <input id="username" placeholder="GitHub username" />
-     <button id="loadBtn">Load</button>
+     <form class="search-container" id="searchForm">
+          <input id="username" type="text" placeholder="GitHub Username..." />
+          <button type="submit" class="search-btn" aria-label="Search">
+               <i class="fa fa-search"></i>
+          </button>
+     </form>
+
 
      <h1>Groups</h1>
      <div id="grouped"></div>
@@ -18,7 +24,6 @@
      <h1>Other Repos</h1>
      <div id="other"></div>
 
-     <script src="script.js"></script>
      <script src="app.js"></script>
 </body>
 
