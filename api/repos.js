@@ -1,10 +1,16 @@
 export default async function handler(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*"); // https://luanillogical.github.io
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
     const username = req.query.user;
 
     if (!username) {
-        return res.status(400).json({
-            error: "Missing username"
-        });
+        return res.status(400).json({ error: "Missing username" });
     }
 
     try {
@@ -31,11 +37,11 @@ export default async function handler(req, res) {
             html_url: repo.html_url
         }));
 
-        res.status(200).json(simplified);
+        return res.status(200).json(simplified);
 
     } catch (error) {
-        res.status(500).json({
-            error: "Server error"
+        return res.status(500).json({
+            error: "Internal server error"
         });
     }
 }

@@ -7,7 +7,7 @@ async function loadRepos() {
     repoList.innerHTML = "Loading...";
 
     try {
-        const response = await fetch(`/api/repos?user=${username}`);
+        const response = await fetch(`https://luanillogical-github-io.vercel.app/api/repos?user=${username}`);
 
         if (!response.ok) {
             throw new Error("Failed to fetch repos");
