@@ -11,7 +11,7 @@ async function loadRepos() {
 
     const res = await fetch(`${API_BASE}/api/repos?user=${user}`);
     const data = await res.json();
-
+    console.log(data);
     renderGroups(data.grouped);
 
     otherRepos = data.other;
