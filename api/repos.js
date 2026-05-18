@@ -117,3 +117,4 @@ function extractGroups(readme) {
             return res.status(500).json({ error: "Server error" });
         }
     }
+}
