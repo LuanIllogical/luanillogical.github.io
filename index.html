@@ -2,27 +2,61 @@
 <html>
 
 <head>
-     <title>Github User Dossier</title>
+     <title>GitHub User Dossier</title>
+
      <link rel="stylesheet" href="/css/main.css">
+
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-     <h1>GitHub User Dossier</h1>
 
-     <form class="search-container" id="searchForm">
-          <input id="username" type="text" placeholder="GitHub Username..." />
-          <button type="submit" class="search-btn" aria-label="Search">
-               <i class="fa fa-search"></i>
-          </button>
-     </form>
+     <div class="title-search">
+          <h1>GitHub User Dossier</h1>
+          <form class="search-container" id="searchForm">
+               <input id="username" type="text" placeholder="GitHub Username..." />
+
+               <button type="submit" class="search-btn" aria-label="Search">
+                    <i class="fa fa-search"></i>
+               </button>
+          </form>
+     </div>
+     <div id="user"></div>
+
+     <div class="repositories">
+          <h2>Repositories</h2>
+          <div>
+               <div class="dropdown ddGroup">
+                    <button class="dropdown-btn" id="dropdownBtnGroup">
+                         <span>Groups</span>
+                         <i class="fa fa-angle-down"></i>
+
+                    </button>
+
+                    <div class="dropdown-menu" id="dropdownMenuGroup">
+                         <div class="dropdown-item ddig">Groups</div>
+                         <div class="dropdown-item ddig">Main Language</div>
+                    </div>
+
+               </div>
+               <div class="dropdown ddOrder">
+                    <button class="dropdown-btn" id="dropdownBtnOrder">
+                         <span>Stars</span>
+                         <i class="fa fa-angle-down"></i>
+                    </button>
+
+                    <div class="dropdown-menu" id="dropdownMenuOrder">
+                         <div class="dropdown-item ddio">Stars</div>
+                         <div class="dropdown-item ddio">Name</div>
+                         <div class="dropdown-item ddio">Last Updated</div>
+                    </div>
+
+               </div>
+          </div>
 
 
-     <h1>Groups</h1>
-     <div id="grouped"></div>
-
-     <h1>Other Repos</h1>
-     <div id="other"></div>
+     </div>
+     <div id="repos"></div>
 
      <script src="app.js"></script>
 </body>
