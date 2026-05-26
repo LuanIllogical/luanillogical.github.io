@@ -57,12 +57,16 @@ async function loadDossier(username) {
     }
 
     const data = await res.json();
-
+    console.log(data.languageTexts.length);
     if (data.user && data.user.message === "Not Found") {
       throw new Error(`User "${username}" not found`);
     }
-
-    console.log('Received languageTexts keys:', Object.keys(data.languageTexts || {}));
+    if (data.backgroundCSS) {
+      applyBackgroundCSS(data.backgroundCSS);
+    } else {
+      document.body.style.background = "#050505";
+      document.body.style.backgroundAttachment = "";
+    }
 
     const repoData = data.repos;
     userProfile = data.user;
@@ -243,20 +247,19 @@ function renderUserCard() {
   const readmeContainer = document.querySelector(".readme-card");
   if (readmeContainer && window.languageTexts && Object.keys(window.languageTexts).length > 0) {
     const langCodes = Object.keys(window.languageTexts);
+    const showDropdown = langCodes.length > 1 || (langCodes.length === 1 && langCodes[0] !== 'README');
 
-    const showSwitcher = langCodes.length > 1 || (langCodes.length === 1 && langCodes[0] !== 'README');
-
-    if (showSwitcher) {
+    if (showDropdown) {
       if (!currentLanguage) {
         currentLanguage = langCodes[0];
       }
       buildLanguageSwitcher(window.languageTexts);
       displayLanguage(currentLanguage);
-    } else {
+    } else if (langCodes.length === 1) {
       displayLanguage(langCodes[0]);
     }
   } else if (readmeContainer && readmeHTML) {
-    readmeContainer.innerHTML = readmeHTML;
+    readmeContainer.innerHTML = `<div class="readme-content">${readmeHTML}</div>`;
   }
 }
 
@@ -271,40 +274,92 @@ function displayLanguage(langCode) {
 }
 
 function buildLanguageSwitcher(languageTexts) {
-  const userCardDiv = document.getElementById("user");
-  if (!userCardDiv) return;
+  const readmeCard = document.querySelector(".readme-card");
+  if (!readmeCard) return;
 
-  const existingBar = userCardDiv.querySelector(".lang-switch-bar");
-  if (existingBar) existingBar.remove();
+  const existingSelector = readmeCard.querySelector(".lang-selector-wrapper");
+  if (existingSelector) existingSelector.remove();
 
   const langCodes = Object.keys(languageTexts);
-  if (langCodes.length === 0) return;
+  if (langCodes.length === 0 || (langCodes.length === 1 && langCodes[0] === 'README')) return;
 
-  const langBar = document.createElement("div");
-  langBar.className = "lang-switch-bar";
+  const langWrapper = document.createElement("div");
+  langWrapper.className = "lang-selector-wrapper";
 
-  langBar.innerHTML = langCodes.map(code => `
-    <button class="lang-btn ${currentLanguage === code ? 'active' : ''}" data-lang="${code}">
-      ${code}
-    </button>
-  `).join('');
+  langWrapper.innerHTML = `
+    <div class="dropdown lang-selector-dropdown">
+      <button class="dropdown-btn" id="languageDropdownBtn">
+        <span id="selectedLanguage">${currentLanguage || langCodes[0]}</span>
+        <i class="fa fa-angle-down"></i>
+      </button>
+      <div class="dropdown-menu" id="languageDropdownMenu"></div>
+    </div>
+  `;
 
-  const userLeftDiv = userCardDiv.querySelector(".user-left");
-  if (userLeftDiv) {
-    userLeftDiv.insertBefore(langBar, userLeftDiv.firstChild);
-  }
+  readmeCard.insertBefore(langWrapper, readmeCard.firstChild);
 
-  document.querySelectorAll(".lang-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const lang = btn.getAttribute("data-lang");
+  const dropdownMenu = document.getElementById("languageDropdownMenu");
+  const selectedLanguageSpan = document.getElementById("selectedLanguage");
+  const dropdown = document.querySelector(".lang-selector-dropdown");
+
+  langCodes.forEach(code => {
+    const item = document.createElement('div');
+    item.className = `dropdown-item ${currentLanguage === code ? 'active' : ''}`;
+    item.setAttribute('data-lang', code);
+    item.innerHTML = code;
+
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const lang = item.getAttribute('data-lang');
       if (languageTexts[lang]) {
         currentLanguage = lang;
-        displayLanguage(lang);
-        document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+
+        const contentContainer = document.querySelector(".readme-content");
+        if (contentContainer) {
+          contentContainer.innerHTML = languageTexts[lang];
+        }
+
+        selectedLanguageSpan.innerHTML = lang;
+
+        document.querySelectorAll('#languageDropdownMenu .dropdown-item').forEach(i => {
+          i.classList.remove('active');
+        });
+        item.classList.add('active');
+
+        dropdown.classList.remove('open');
       }
     });
+
+    dropdownMenu.appendChild(item);
   });
+
+  const dropdownBtn = document.getElementById("languageDropdownBtn");
+  dropdownBtn.onclick = (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("open");
+  };
+
+  document.addEventListener('click', (e) => {
+    if (dropdown && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+}
+
+function displayLanguage(langCode) {
+  const readmeCard = document.querySelector(".readme-card");
+  if (!readmeCard) return;
+
+  const content = window.languageTexts[langCode];
+  if (content) {
+    let contentContainer = readmeCard.querySelector(".readme-content");
+    if (!contentContainer) {
+      contentContainer = document.createElement("div");
+      contentContainer.className = "readme-content";
+      readmeCard.appendChild(contentContainer);
+    }
+    contentContainer.innerHTML = content;
+  }
 }
 
 function getUrlParameter(user) {
@@ -320,6 +375,20 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function applyBackgroundCSS(backgroundCSS) {
+  if (!backgroundCSS) {
+    document.body.style.background = "#050505";
+    return;
+  }
+
+  document.body.style.background = backgroundCSS;
+
+  if (backgroundCSS.includes('gradient')) {
+    document.body.style.minHeight = "100vh";
+    document.body.style.backgroundAttachment = "fixed";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

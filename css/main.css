@@ -8,10 +8,8 @@ body {
   font-family: "Noto Sans", sans-serif;
   color: white;
   background: #050505;
-
   margin: 0;
   padding: 32px;
-
   min-height: 100vh;
 }
 
@@ -31,7 +29,6 @@ body {
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 20px;
 }
 
 .dropdown-btn {
@@ -60,13 +57,15 @@ body {
   top: calc(100% + 10px);
   right: 0;
   width: 100%;
-  background: rgba(20, 20, 20, 0.95);
+  background: rgba(20, 20, 20, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   overflow: hidden;
   backdrop-filter: blur(18px);
   display: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  position: absolute;
 }
 
 .dropdown.open .dropdown-menu {
@@ -362,36 +361,6 @@ body {
   text-decoration: underline;
 }
 
-.lang-switch-bar {
-  display: flex;
-  gap: 0.8rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  padding-bottom: 0.9rem;
-}
-
-.lang-btn {
-  background: #f2f4f8;
-  border: none;
-  padding: 0.4rem 1rem;
-  border-radius: 60px;
-  font-weight: 500;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: 0.2s;
-  color: #1f2a3e;
-}
-
-.lang-btn.active {
-  background: #58a6ff;
-  color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.lang-btn:hover:not(.active) {
-  background: #e2e6ec;
-}
-
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -438,6 +407,52 @@ body {
   padding: 1.2rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+.lang-selector-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.lang-selector-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-selector-dropdown .dropdown-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.lang-selector-dropdown .dropdown-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  min-width: 100px;
+  z-index: 20;
+  display: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.lang-selector-dropdown.open .dropdown-menu {
+  display: block;
+}
+
+.lang-selector-dropdown .dropdown-item {
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: 0.1s;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @keyframes pulse {
@@ -542,6 +557,10 @@ body {
 
   .search-container {
     width: 100%;
+  }
+
+  .repositories {
+    flex-direction: column;
   }
 }
 
