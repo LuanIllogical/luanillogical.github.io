@@ -68,6 +68,8 @@ linear-gradient(to top, #750da8, #000960)
 -->
 ```
 
+You can use whatever CSS styling you'd put in the ``background`` field of the ``body``.
+
 <a id="translations-for-user-readme"></a>
 ## 🌐 Translations for user README
 
