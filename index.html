@@ -3,10 +3,9 @@
 
 <head>
      <title>GitHub User Dossier</title>
-
-     <link rel="stylesheet" href="/css/main.css">
-
+     <link rel="stylesheet" href="main.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -22,43 +21,74 @@
           </form>
      </div>
      <div id="user"></div>
+     <div class="collapsible-section open">
+          <button class="section-toggle">
+               <span>Charts</span>
+               <i class="fa fa-chevron-up"></i>
+          </button>
 
-     <div class="repositories">
-          <h2>Repositories</h2>
-          <div style="gap: 20px; display:flex">
-               <div class="dropdown ddGroup">
-                    <button class="dropdown-btn" id="dropdownBtnGroup">
-                         <span>Groups</span>
-                         <i class="fa fa-angle-down"></i>
-
-                    </button>
-
-                    <div class="dropdown-menu" id="dropdownMenuGroup">
-                         <div class="dropdown-item ddig">Groups</div>
-                         <div class="dropdown-item ddig">Main Language</div>
+          <div class="section-content">
+               <div class="charts">
+                    <div class="chart-section">
+                         <h2>Language Distribution</h2>
+                         <canvas id="languageChart" width="350" height="350"></canvas>
                     </div>
-
-               </div>
-               <div class="dropdown ddOrder">
-                    <button class="dropdown-btn" id="dropdownBtnOrder">
-                         <span>Stars</span>
-                         <i class="fa fa-angle-down"></i>
-                    </button>
-
-                    <div class="dropdown-menu" id="dropdownMenuOrder">
-                         <div class="dropdown-item ddio">Stars</div>
-                         <div class="dropdown-item ddio">Name</div>
-                         <div class="dropdown-item ddio">Last Updated</div>
+                    <div class="chart-section">
+                         <h2>Stars Per Language</h2>
+                         <canvas id="starsPerLanguageChart" width="350" height="350"></canvas>
                     </div>
-
+                    <div class="chart-section">
+                         <h2>Group Distribution</h2>
+                         <canvas id="groupChart" width="350" height="350"></canvas>
+                    </div>
+                    <div class="chart-section">
+                         <h2>Stars Per Group</h2>
+                         <canvas id="starsPerGroupChart" width="350" height="350"></canvas>
+                    </div>
                </div>
+
           </div>
-
-
      </div>
-     <div id="repos"></div>
 
-     <script src="app.js"></script>
+     <div class="collapsible-section open">
+          <button class="section-toggle">
+               <span>Repositories </span>
+               <i class="fa fa-chevron-up"></i>
+          </button>
+
+          <div class="section-content">
+               <div class="repositories">
+                    <div style="gap: 20px; display:flex">
+                         <div class="dropdown ddGroup">
+                              <button class="dropdown-btn" id="dropdownBtnGroup">
+                                   <span>Groups</span>
+                                   <i class="fa fa-angle-down"></i>
+                              </button>
+
+                              <div class="dropdown-menu" id="dropdownMenuGroup">
+                                   <div class="dropdown-item ddig">Groups</div>
+                                   <div class="dropdown-item ddig">Main Language</div>
+                                   <div class="dropdown-item ddig">All</div>
+                              </div>
+                         </div>
+
+                         <div class="dropdown ddOrder">
+                              <button class="dropdown-btn" id="dropdownBtnOrder">
+                                   <span>Stars</span>
+                                   <i class="fa fa-angle-down"></i>
+                              </button>
+
+                              <div class="dropdown-menu" id="dropdownMenuOrder">
+                                   <div class="dropdown-item ddio">Stars</div>
+                                   <div class="dropdown-item ddio">Name</div>
+                                   <div class="dropdown-item ddio">Last Updated</div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div id="repos"></div>
+          </div>
+          <script src="app.js"></script>
 </body>
 
 </html>
