@@ -23,28 +23,23 @@
      <div id="user"></div>
      <div class="collapsible-section open">
           <button class="section-toggle">
+               <span>Contribution Overview</span>
+               <i class="fa fa-chevron-up"></i>
+          </button>
+          <div class="section-content">
+               <div id="contributionsContent"></div>
+          </div>
+     </div>
+
+     <div class="collapsible-section open">
+          <button class="section-toggle">
                <span>Charts</span>
                <i class="fa fa-chevron-up"></i>
           </button>
 
           <div class="section-content">
                <div class="charts">
-                    <div class="chart-section">
-                         <h2>Language Distribution</h2>
-                         <canvas id="languageChart" width="350" height="350"></canvas>
-                    </div>
-                    <div class="chart-section">
-                         <h2>Stars Per Language</h2>
-                         <canvas id="starsPerLanguageChart" width="350" height="350"></canvas>
-                    </div>
-                    <div class="chart-section">
-                         <h2>Group Distribution</h2>
-                         <canvas id="groupChart" width="350" height="350"></canvas>
-                    </div>
-                    <div class="chart-section">
-                         <h2>Stars Per Group</h2>
-                         <canvas id="starsPerGroupChart" width="350" height="350"></canvas>
-                    </div>
+
                </div>
 
           </div>
@@ -88,7 +83,17 @@
                </div>
                <div id="repos"></div>
           </div>
-          <script src="app.js"></script>
+     </div>
+     <div class="collapsible-section open">
+          <button class="section-toggle">
+               <span>Recent Activity</span>
+               <i class="fa fa-chevron-up"></i>
+          </button>
+          <div class="section-content">
+               <div id="activityContent"></div>
+          </div>
+     </div>
+     <script type="module" src="app.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+import { renderCharts } from "./charts.js";
+
 const API_BASE = "https://gud-api.vercel.app";
 
 let allRepos = [];
@@ -9,6 +11,8 @@ let readme = null;
 let readmeHTML = null;
 let currentLanguage = null;
 let languageItems = [];
+let contributionsData = null;
+let activityData = [];
 
 const sorters = {
   "Last Updated": (a, b) =>
@@ -49,6 +53,57 @@ async function loadDossier(username) {
     `;
   }
 
+  const chartsContainer = document.querySelector(".charts");
+  if (chartsContainer) {
+    chartsContainer.innerHTML = `
+    ${Array(4).fill(0).map(() => `
+      <div class="chart-section">
+        <div class="repo-skeleton" style="height: 300px; width: 300px; margin: 0 auto; border-radius: 50%;">
+          <div style="width:100%; height:100%; border-radius:50%;"></div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  }
+
+  const contribContainer = document.getElementById("contributionsContent");
+  if (contribContainer) {
+    contribContainer.innerHTML = `
+    <div style="display:flex; justify-content:center;">
+      <div class="repo-skeleton" style="padding: 1.5rem; border-radius: 16px; display: inline-flex; flex-direction: column; gap: 8px;">
+        <div style="display:flex; gap:3px; margin-bottom:6px;">
+          ${Array(53).fill(0).map(() => `<div style="width:12px; height:10px; background:rgba(255,255,255,0.06); border-radius:2px;"></div>`).join('')}
+        </div>
+        ${Array(7).fill(0).map(() => `
+          <div style="display:flex; gap:3px;">
+            ${Array(53).fill(0).map((_, i) => `<div style="width:12px; height:12px; background:rgba(255,255,255,${0.03 + Math.random() * 0.06}); border-radius:2px;"></div>`).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  }
+
+  const activityContainer = document.getElementById("activityContent");
+  if (activityContainer) {
+    activityContainer.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      ${Array(6).fill(0).map(() => `
+        <div class="repo-skeleton" style="border-radius:12px; padding:0.9rem 1rem; border-left: 3px solid rgba(88,166,255,0.2);">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+            <div style="width:24px; height:14px; background:rgba(255,255,255,0.06); border-radius:4px;"></div>
+            <div style="width:80px; height:14px; background:rgba(255,255,255,0.06); border-radius:4px;"></div>
+            <div style="width:120px; height:14px; background:rgba(255,255,255,0.06); border-radius:4px;"></div>
+            <div style="width:40px; height:12px; background:rgba(255,255,255,0.04); border-radius:4px; margin-left:auto;"></div>
+          </div>
+          <div style="padding-left:1.8rem;">
+            <div style="width:60%; height:12px; background:rgba(255,255,255,0.04); border-radius:4px;"></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  }
   try {
     const res = await fetch(`${API_BASE}/api/dossier?user=${encodeURIComponent(username)}`);
 
@@ -57,10 +112,11 @@ async function loadDossier(username) {
     }
 
     const data = await res.json();
-    console.log(data.languageTexts.length);
+
     if (data.user && data.user.message === "Not Found") {
       throw new Error(`User "${username}" not found`);
     }
+
     if (data.backgroundCSS) {
       applyBackgroundCSS(data.backgroundCSS);
     } else {
@@ -72,6 +128,8 @@ async function loadDossier(username) {
     userProfile = data.user;
     readmeHTML = data.readme;
     readme = data.readme;
+    contributionsData = data.contributions || null;
+    activityData = data.recentActivity || [];
     allRepos = [];
 
     for (const [groupName, repos] of Object.entries(repoData.grouped || {})) {
@@ -94,6 +152,11 @@ async function loadDossier(username) {
 
     window.languageTexts = data.languageTexts || {};
 
+    const hasGroups = allRepos.some(r => r.customGroup && r.customGroup !== 'Other');
+    if (!hasGroups) {
+      currentGroup = "All"
+      document.getElementById("dropdownBtnGroup").children[0].textContent = "All";
+    }
     render();
   } catch (error) {
     console.error('Error loading dossier:', error);
@@ -109,13 +172,23 @@ async function loadDossier(username) {
     if (reposContainer) {
       reposContainer.innerHTML = '';
     }
+    const contribContainer = document.getElementById("contributionsContent");
+    if (contribContainer) {
+      contribContainer.innerHTML = '<div class="empty-activity">Failed to load contribution data</div>';
+    }
+    const activityContainer = document.getElementById("activityContent");
+    if (activityContainer) {
+      activityContainer.innerHTML = '<div class="empty-activity">Failed to load activity data</div>';
+    }
   }
 }
 
 function render() {
   renderUserCard();
   renderRepos();
-  renderCharts();
+  renderCharts(allRepos);
+  renderContributions();
+  renderActivity();
 }
 
 function sortRepos(repos) {
@@ -176,7 +249,9 @@ function buildLanguageGroups(repos) {
 function renderRepos() {
   const container = document.getElementById("repos");
   container.innerHTML = "";
+
   const groups = groupRepos(allRepos);
+
   renderGroups(groups, container);
 }
 
@@ -187,7 +262,7 @@ function renderGroups(groups, container) {
 
     section.innerHTML = `
       <button class="section-toggle">
-        <span>${groupName} (${repos.length})</span>
+        <span>${escapeHtml(groupName)} (${repos.length})</span>
         <i class="fa fa-chevron-up"></i>
       </button>
 
@@ -200,22 +275,24 @@ function renderGroups(groups, container) {
 
     container.appendChild(section);
   }
+
+  attachToggleListeners();
 }
 
 function createCard(repo) {
   return `
     <a class="repo-card" href="${repo.html_url}" target="_blank">
       <div class="repo-card-header">
-        <h3>${repo.name}</h3>
+        <h3>${escapeHtml(repo.name)}</h3>
       </div>
       <p class="repo-description">
-        ${repo.description || "No description"}
+        ${escapeHtml(repo.description || "No description")}
       </p>
       <div class="repo-meta">
-        <div> ${repo.stargazers_count} <i class="fa fa-star-o"></i></div>
-        <div> ${repo.forks_count} <i class="fa fa-code-fork"></i></div>
-        <div> ${repo.watchers_count} <i class="fa fa-eye"></i></div>
-        <span>${repo.language || "Unknown"}</span>
+        <div> ${repo.stargazers_count || 0} <i class="fa fa-star-o"></i></div>
+        <div> ${repo.forks_count || 0} <i class="fa fa-code-fork"></i></div>
+        <div> ${repo.watchers_count || 0} <i class="fa fa-eye"></i></div>
+        <span>${escapeHtml(repo.language || "Unknown")}</span>
       </div>
       <div class="repo-updated">
         Updated ${new Date(repo.updated_at).toLocaleDateString()}
@@ -234,9 +311,9 @@ function renderUserCard() {
       <div class="user-left">
         <img src="${userProfile.avatar_url}" class="avatar" />
         <div class="user-info">
-          <h2>${userProfile.name || userProfile.login}</h2>
-          <p class="username">@${userProfile.login}</p>
-          <p class="bio">${userProfile.bio || "No bio available"}</p>
+          <h2>${escapeHtml(userProfile.name || userProfile.login)}</h2>
+          <p class="username">@${escapeHtml(userProfile.login)}</p>
+          <p class="bio">${escapeHtml(userProfile.bio || "No bio available")}</p>
         </div>
         <div class="user-stats">
           <div><a href="https://github.com/${userProfile.login}?tab=followers" target="_blank"><strong>${userProfile.followers || 0}</strong> Followers</a></div>
@@ -244,10 +321,10 @@ function renderUserCard() {
           <div><a href="https://github.com/${userProfile.login}?tab=repositories" target="_blank"><strong>${userProfile.public_repos || 0}</strong> Repos</a></div>
         </div>
         <div class="user-meta">
-          ${userProfile.location ? `<div><i class="fa fa-map-marker"></i> ${userProfile.location}</div>` : ""}
-          ${userProfile.company ? `<div><i class="fa fa-building-o"></i> ${userProfile.company}</div>` : ""}
-          ${userProfile.blog ? `<div><i class="fa fa-link"></i> <a href="${userProfile.blog}" target="_blank">${userProfile.blog}</a></div>` : ""}
-          ${userProfile.twitter_username ? `<div>X <a href="https://twitter.com/${userProfile.twitter_username}" target="_blank">@${userProfile.twitter_username}</a></div>` : ""}
+          ${userProfile.location ? `<div><i class="fa fa-map-marker"></i> ${escapeHtml(userProfile.location)}</div>` : ""}
+          ${userProfile.company ? `<div><i class="fa fa-building-o"></i> ${escapeHtml(userProfile.company)}</div>` : ""}
+          ${userProfile.blog ? `<div><i class="fa fa-link"></i> <a href="${escapeHtml(userProfile.blog)}" target="_blank">${escapeHtml(userProfile.blog)}</a></div>` : ""}
+          ${userProfile.twitter_username ? `<div><i class="fa fa-twitter"></i> <a href="https://twitter.com/${userProfile.twitter_username}" target="_blank">@${escapeHtml(userProfile.twitter_username)}</a></div>` : ""}
         </div>
       </div>
       <div class="readme-card"></div>
@@ -273,13 +350,380 @@ function renderUserCard() {
   }
 }
 
+function renderContributions() {
+  if (!contributionsData?.colorScheme && !contributionsData?.customColorScheme) {
+    const styleElement = document.getElementById('contrib-color-scheme');
+    if (styleElement) styleElement.remove();
+  }
+  const container = document.getElementById("contributionsContent");
+  if (!container) return;
+
+  if (!contributionsData || !contributionsData.contributions || contributionsData.contributions.length === 0) {
+    container.innerHTML = '<div class="empty-activity"><i class="fa fa-info-circle"></i> No contribution data available</div>';
+    return;
+  }
+
+  if (contributionsData.colorScheme) {
+    const { fills, borders } = contributionsData.colorScheme;
+    let styleElement = document.getElementById('contrib-color-scheme');
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = 'contrib-color-scheme';
+      document.head.appendChild(styleElement);
+    }
+    let css = ':root {\n';
+    fills.forEach((f, i) => css += `  --contrib-fill-${i}: ${f};\n`);
+    borders.forEach((b, i) => css += `  --contrib-border-${i}: ${b};\n`);
+    css += '}\n';
+    styleElement.textContent = css;
+  }
+
+  const totalContributions = contributionsData.total || contributionsData.contributions.reduce((sum, c) => sum + c.count, 0);
+
+  const html = `
+  <div class="contribution-grid-wrapper">
+    <div class="contribution-grid">  
+    <div class="contribution-header">
+    <div class="contribution-stats">
+        <span><strong>${totalContributions.toLocaleString()}</strong> contributions in the last year</span>
+      </div>
+      <div class="contribution-legend">
+        <span>Less</span>
+        <div class="legend-colors">
+          <div class="legend-color level-0"></div>
+          <div class="legend-color level-1"></div>
+          <div class="legend-color level-2"></div>
+          <div class="legend-color level-3"></div>
+          <div class="legend-color level-4"></div>
+        </div>
+        <span>More</span>
+      </div>
+      </div>
+      ${renderContributionGrid()}
+      
+    </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  addContributionTooltips();
+}
+
+function renderContributionGrid() {
+  if (!contributionsData || !contributionsData.contributions || contributionsData.contributions.length === 0) {
+    return '<div class="empty-activity"><i class="fa fa-info-circle"></i> No contribution data available</div>';
+  }
+
+  const sorted = [...contributionsData.contributions].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  // Group by weeks (each week = 7 days, starting from Sunday)
+  const weeks = [];
+  let currentWeek = [];
+
+  // Find the first Sunday
+  const firstDate = new Date(sorted[0].date);
+  const firstDayOfWeek = firstDate.getDay(); // 0 = Sunday
+  const startDate = new Date(firstDate);
+  startDate.setDate(firstDate.getDate() - firstDayOfWeek);
+
+  // Create a map for quick lookup
+  const contribMap = new Map();
+  sorted.forEach(c => contribMap.set(c.date, c));
+
+  // Generate all dates from startDate to today
+  const today = new Date();
+  const currentDate = new Date(startDate);
+
+  while (currentDate <= today) {
+    const dateStr = currentDate.toISOString().split('T')[0];
+    const contrib = contribMap.get(dateStr);
+    const count = contrib ? contrib.count : 0;
+    const level = contrib ? contrib.level : 0;
+
+    currentWeek.push({
+      date: dateStr,
+      count: count,
+      level: level
+    });
+
+    // End of week (Saturday)
+    if (currentWeek.length === 7) {
+      weeks.push([...currentWeek]);
+      currentWeek = [];
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  // Add last week if incomplete
+  if (currentWeek.length > 0) {
+    while (currentWeek.length < 7) {
+      currentWeek.push({ date: null, count: 0, level: 0 });
+    }
+    weeks.push(currentWeek);
+  }
+
+  // Calculate month positions for labels
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // REPLACE the monthPositions building block with:
+  const monthPositions = [];
+  let lastMonth = -1;
+  let lastLabelWeek = -4;
+
+  weeks.forEach((week, weekIdx) => {
+    for (let dayIdx = 0; dayIdx < week.length; dayIdx++) {
+      const day = week[dayIdx];
+      if (day && day.date) {
+        const date = new Date(day.date);
+        const m = date.getMonth();
+        if (m !== lastMonth && (weekIdx - lastLabelWeek) >= 4) {
+          monthPositions[weekIdx] = monthNames[m];
+          lastMonth = m;
+          lastLabelWeek = weekIdx;
+        }
+        break;
+      }
+    }
+  });
+
+  // Combine everything
+  return `
+  <div style="display:flex; justify-content:center;">
+    <div style="display:flex; align-items:flex-start; gap:4px;">
+
+      <div style="display:flex; flex-direction:column; gap:3px; padding-top:18px; flex-shrink:0;">
+        <div style="height:12px; font-size:10px; color:rgba(255,255,255,0.4); line-height:12px;"></div>
+        <div style="height:12px; font-size:10px; color:rgba(255,255,255,0.4); line-height:12px;">Mon</div>
+        <div style="height:12px;"></div>
+        <div style="height:12px; font-size:10px; color:rgba(255,255,255,0.4); line-height:12px;">Wed</div>
+        <div style="height:12px;"></div>
+        <div style="height:12px; font-size:10px; color:rgba(255,255,255,0.4); line-height:12px;">Fri</div>
+        <div style="height:12px;"></div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <div style="display:flex; flex-direction:row; gap:3px; margin-bottom:6px; min-width:max-content;">
+          ${weeks.map((_, i) => {
+    const monthLabel = monthPositions[i] || '';
+    return `<div style="width:12px; font-size:10px; color:rgba(255,255,255,0.5); white-space:nowrap; overflow:visible;">${monthLabel}</div>`;
+  }).join('')}
+        </div>
+        <div class="contribution-calendar">
+          ${weeks.map(week => `
+            <div class="contribution-week">
+              ${week.map(day => {
+    const level = day?.level || 0;
+    const count = day?.count || 0;
+    const date = day?.date || '';
+    return `<div class="contribution-day level-${level}" data-count="${count}" data-date="${date}"></div>`;
+  }).join('')}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+    </div>
+  </div>
+`;
+}
+
+function addContributionTooltips() {
+  setTimeout(() => {
+    document.querySelectorAll('.contribution-day').forEach(day => {
+      day.removeEventListener('mouseenter', handleTooltipEnter);
+      day.removeEventListener('mouseleave', handleTooltipLeave);
+      day.removeEventListener('mousemove', handleTooltipMove);
+
+      day.addEventListener('mouseenter', handleTooltipEnter);
+      day.addEventListener('mouseleave', handleTooltipLeave);
+      day.addEventListener('mousemove', handleTooltipMove);
+    });
+  }, 100);
+}
+
+let currentTooltip = null;
+
+
+
+function handleTooltipEnter(e) {
+  const count = e.target.dataset.count;
+  const date = e.target.dataset.date;
+  if (date) {
+    currentTooltip = document.createElement('div');
+    currentTooltip.className = 'contribution-tooltip';
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    currentTooltip.innerText = `${count} contribution${count != 1 ? 's' : ''} on ${formattedDate}`;
+    document.body.appendChild(currentTooltip);
+    currentTooltip.style.left = e.clientX + 15 + 'px';
+    currentTooltip.style.top = e.clientY - 30 + 'px';
+  }
+}
+
+function handleTooltipLeave(e) {
+  if (currentTooltip) {
+    currentTooltip.remove();
+    currentTooltip = null;
+  }
+}
+
+function handleTooltipMove(e) {
+  if (currentTooltip) {
+    currentTooltip.style.left = e.clientX + 15 + 'px';
+    currentTooltip.style.top = e.clientY - 30 + 'px';
+  }
+}
+
+function renderActivity() {
+  const container = document.getElementById("activityContent");
+  if (!container) return;
+
+  if (!activityData || activityData.length === 0) {
+    container.innerHTML = '<div class="empty-activity"><i class="fa fa-info-circle"></i> No recent public activity found</div>';
+    return;
+  }
+
+  const eventIcons = {
+    'PushEvent': '<i class="fa fa-code-fork"></i>',
+    'CreateEvent': '<i class="fa fa-plus-circle"></i>',
+    'DeleteEvent': '<i class="fa fa-trash-o"></i>',
+    'IssuesEvent': '<i class="fa fa-exclamation-circle"></i>',
+    'IssueCommentEvent': '<i class="fa fa-comment"></i>',
+    'PullRequestEvent': '<i class="fa fa-git-pull-request"></i>',
+    'WatchEvent': '<i class="fa fa-star"></i>',
+    'ForkEvent': '<i class="fa fa-code-fork"></i>',
+    'PublicEvent': '<i class="fa fa-globe"></i>'
+  };
+
+  const eventTypeNames = {
+    'PushEvent': 'Pushed commits',
+    'CreateEvent': 'Created',
+    'DeleteEvent': 'Deleted',
+    'IssuesEvent': 'Issue',
+    'IssueCommentEvent': 'Commented on issue',
+    'PullRequestEvent': 'Pull request',
+    'WatchEvent': 'Starred',
+    'ForkEvent': 'Forked',
+    'PublicEvent': 'Made public'
+  };
+
+  let html = '<div class="activity-list">';
+
+  activityData.slice(0, 30).forEach(event => {
+    const eventType = event.type;
+    const repoName = event.repo?.name || 'Unknown';
+    const repoUrl = event.repo?.url || `https://github.com/${repoName}`;
+    const createdAt = new Date(event.created_at);
+    const timeAgo = getTimeAgo(createdAt);
+    const icon = eventIcons[eventType] || '<i class="fa fa-code"></i>';
+    const typeName = eventTypeNames[eventType] || eventType.replace('Event', '');
+
+    let details = '';
+
+    if (eventType === 'PushEvent') {
+      const commitCount = event.payload.distinct_size || event.payload.size || event.payload.commits?.length || 0;
+      const branch = event.payload.ref;
+
+      if (commitCount > 0 || event.payload.commits?.length > 0) {
+        details = `<div class="activity-details">
+      <i class="fa fa-code"></i> ${commitCount} commit${commitCount !== 1 ? 's' : ''}
+      ${branch ? ` to <span class="activity-branch">${escapeHtml(branch)}</span>` : ''}
+    </div>`;
+        if (event.payload.commits?.[0]) {
+          const commitMsg = event.payload.commits[0].message.length > 60
+            ? event.payload.commits[0].message.substring(0, 57) + '...'
+            : event.payload.commits[0].message;
+          details += `<div class="activity-commit-msg"><i class="fa fa-code-fork"></i> ${escapeHtml(commitMsg)}</div>`;
+        }
+      } else if (branch) {
+        details = `<div class="activity-details">
+      <i class="fa fa-code"></i> Pushed to <span class="activity-branch">${escapeHtml(branch)}</span>
+    </div>`;
+      }
+    } else if (eventType === 'CreateEvent') {
+      const refType = event.payload?.ref_type || 'repository';
+      const refName = event.payload?.ref || '';
+      details = `<div class="activity-details"><i class="fa fa-plus-circle"></i> Created ${refType}${refName ? `: ${escapeHtml(refName)}` : ''}</div>`;
+    } else if (eventType === 'IssuesEvent' && event.payload?.issue) {
+      const action = event.payload.action || 'opened';
+      const title = event.payload.issue.title || '';
+      const truncatedTitle = title.length > 50 ? title.substring(0, 47) + '...' : title;
+      details = `<div class="activity-details"><i class="fa fa-exclamation-circle"></i> ${action} issue #${event.payload.issue.number}: "${escapeHtml(truncatedTitle)}"</div>`;
+    } else if (eventType === 'PullRequestEvent' && event.payload?.pr) {
+      const action = event.payload.action || 'opened';
+      const title = event.payload.pr.title || '';
+      const truncatedTitle = title.length > 50 ? title.substring(0, 47) + '...' : title;
+      details = `<div class="activity-details"><i class="fa fa-git-pull-request"></i> ${action} PR #${event.payload.pr.number}: "${escapeHtml(truncatedTitle)}"</div>`;
+    } else if (eventType === 'WatchEvent') {
+      details = `<div class="activity-details"><i class="fa fa-star"></i> Starred this repository</div>`;
+    } else if (eventType === 'ForkEvent' && event.payload?.forkee) {
+      const forkeeName = event.payload.forkee.full_name || '';
+      details = `<div class="activity-details"><i class="fa fa-code-fork"></i> Forked to ${escapeHtml(forkeeName)}</div>`;
+    } else if (eventType === 'IssueCommentEvent' && event.payload?.body) {
+      const body = event.payload.body || '';
+      const truncatedBody = body.length > 80 ? body.substring(0, 77) + '...' : body;
+      details = `<div class="activity-details"><i class="fa fa-comment"></i> "${escapeHtml(truncatedBody)}"</div>`;
+    }
+
+    html += `
+      <div class="activity-item">
+        <div class="activity-header-row">
+          <span class="activity-event-icon">${icon}</span>
+          <span class="activity-event-type">${escapeHtml(typeName)}</span>
+          <a href="${repoUrl}" target="_blank" class="activity-repo">${escapeHtml(repoName)}</a>
+          <span class="activity-time"><i class="fa fa-clock-o"></i> ${timeAgo}</span>
+        </div>
+        ${details}
+      </div>
+    `;
+  });
+
+  html += '</div>';
+
+  if (activityData.length > 30) {
+    html += `<div class="activity-footer"><a href="https://github.com/${userProfile?.login}?tab=overview" target="_blank">View more activity on GitHub <i class="fa fa-external-link"></i></a></div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function getTimeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+
+  let interval = Math.floor(seconds / 31536000);
+  if (interval >= 1) return interval + 'y';
+
+  interval = Math.floor(seconds / 2592000);
+  if (interval >= 1) return interval + 'mo';
+
+  interval = Math.floor(seconds / 86400);
+  if (interval >= 1) return interval + 'd';
+
+  interval = Math.floor(seconds / 3600);
+  if (interval >= 1) return interval + 'h';
+
+  interval = Math.floor(seconds / 60);
+  if (interval >= 1) return interval + 'm';
+
+  return 'just now';
+}
+
 function displayLanguage(langCode) {
   const readmeContainer = document.querySelector(".readme-card");
   if (!readmeContainer) return;
 
   const content = window.languageTexts[langCode];
   if (content) {
-    readmeContainer.innerHTML = content;
+    let contentContainer = readmeContainer.querySelector(".readme-content");
+    if (!contentContainer) {
+      contentContainer = document.createElement("div");
+      contentContainer.className = "readme-content";
+      readmeContainer.appendChild(contentContainer);
+    }
+    contentContainer.innerHTML = content;
   }
 }
 
@@ -316,7 +760,7 @@ function buildLanguageSwitcher(languageTexts) {
     const item = document.createElement('div');
     item.className = `dropdown-item ${currentLanguage === code ? 'active' : ''}`;
     item.setAttribute('data-lang', code);
-    item.innerHTML = code;
+    item.innerHTML = escapeHtml(code);
 
     item.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -329,7 +773,7 @@ function buildLanguageSwitcher(languageTexts) {
           contentContainer.innerHTML = languageTexts[lang];
         }
 
-        selectedLanguageSpan.innerHTML = lang;
+        selectedLanguageSpan.innerHTML = escapeHtml(lang);
 
         document.querySelectorAll('#languageDropdownMenu .dropdown-item').forEach(i => {
           i.classList.remove('active');
@@ -356,25 +800,9 @@ function buildLanguageSwitcher(languageTexts) {
   });
 }
 
-function displayLanguage(langCode) {
-  const readmeCard = document.querySelector(".readme-card");
-  if (!readmeCard) return;
-
-  const content = window.languageTexts[langCode];
-  if (content) {
-    let contentContainer = readmeCard.querySelector(".readme-content");
-    if (!contentContainer) {
-      contentContainer = document.createElement("div");
-      contentContainer.className = "readme-content";
-      readmeCard.appendChild(contentContainer);
-    }
-    contentContainer.innerHTML = content;
-  }
-}
-
-function getUrlParameter(user) {
+function getUrlParameter(param) {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(user);
+  return urlParams.get(param);
 }
 
 function escapeHtml(str) {
@@ -390,6 +818,9 @@ function escapeHtml(str) {
 function applyBackgroundCSS(backgroundCSS) {
   if (!backgroundCSS) {
     document.body.style.background = "#050505";
+    document.body.style.backgroundAttachment = "";
+    const styleElement = document.getElementById('contrib-color-scheme');
+    if (styleElement) styleElement.remove();
     return;
   }
 
@@ -401,375 +832,25 @@ function applyBackgroundCSS(backgroundCSS) {
   }
 }
 
-function renderCharts() {
-  renderLanguageChart();
-  renderStarsPerLanguageChart();
-  renderGroupChart()
-  renderStarsPerGroupChart();
+
+
+function attachToggleListeners() {
+  document.querySelectorAll('.section-toggle').forEach(toggle => {
+    toggle.removeEventListener('click', toggleClickHandler);
+    toggle.addEventListener('click', toggleClickHandler);
+  });
 }
 
-const languageColors = [
-  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-  '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7B731',
-  '#E74C3C', '#3498DB', '#2ECC71', '#F39C12'
-];
-
-function renderLanguageChart() {
-  if (!allRepos || allRepos.length === 0) return;
-
-  const languageCount = {};
-  allRepos.forEach(repo => {
-    const lang = repo.language || "Unknown";
-    languageCount[lang] = (languageCount[lang] || 0) + 1;
-  });
-
-  const sortedLanguages = Object.entries(languageCount)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-
-  const languages = sortedLanguages.map(([lang]) => lang);
-  const counts = sortedLanguages.map(([, count]) => count);
-
-  const canvas = document.getElementById('languageChart');
-  if (!canvas) return;
-
-  let existingChart = Chart.getChart(canvas);
-  if (existingChart) {
-    existingChart.destroy();
+function toggleClickHandler(e) {
+  e.stopPropagation();
+  const section = e.currentTarget.closest('.collapsible-section');
+  if (section) {
+    section.classList.toggle('open');
+    const chevron = e.currentTarget.querySelector('.fa-chevron-up');
+    if (chevron) {
+      chevron.style.transform = section.classList.contains('open') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
   }
-
-  new Chart(canvas, {
-    type: 'pie',
-    data: {
-      labels: languages,
-      datasets: [{
-        data: counts,
-
-        backgroundColor: languageColors
-          .slice(0, languages.length)
-          .map(color => `${color}88`),
-
-        borderColor: languageColors.slice(0, languages.length),
-
-        borderWidth: 2,
-        hoverOffset: 10
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      layout: {
-        padding: {
-          top: 10,
-        }
-      },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            color: '#ffffff',
-            font: {
-              size: 12
-            },
-            padding: 10
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || '';
-              const value = context.raw || 0;
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-              const percentage = ((value / total) * 100).toFixed(1);
-              return `${label}: ${value} repos (${percentage}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-function renderStarsPerLanguageChart() {
-  if (!allRepos || allRepos.length === 0) return;
-
-  const languageStars = {};
-
-  allRepos.forEach(repo => {
-    const lang = repo.language || "Unknown";
-
-    if (!languageStars[lang]) {
-      languageStars[lang] = 0;
-    }
-
-    languageStars[lang] += repo.stargazers_count || 0;
-  });
-
-  const sortedLanguages = Object.entries(languageStars)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-
-  const languages = sortedLanguages.map(([lang]) => lang);
-  const stars = sortedLanguages.map(([, stars]) => stars);
-
-  const canvas = document.getElementById('starsPerLanguageChart');
-  if (!canvas) return;
-
-  let existingChart = Chart.getChart(canvas);
-
-  if (existingChart) {
-    existingChart.destroy();
-  }
-
-  new Chart(canvas, {
-    type: 'pie',
-
-    data: {
-      labels: languages,
-
-      datasets: [{
-        label: 'Stars',
-
-        data: stars,
-
-        backgroundColor: languageColors
-          .slice(0, languages.length)
-          .map(color => `${color}88`),
-
-        borderColor: languageColors.slice(0, languages.length),
-
-        borderWidth: 2,
-
-        hoverOffset: 12
-      }]
-    },
-
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-
-      layout: {
-        padding: {
-          top: 10
-        }
-      },
-
-      plugins: {
-        legend: {
-          position: 'bottom',
-
-          labels: {
-            color: '#ffffff',
-
-            font: {
-              size: 12
-            },
-
-            padding: 12
-          }
-        },
-
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || '';
-              const value = context.raw || 0;
-
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-
-              const percentage = ((value / total) * 100).toFixed(1);
-
-              return `${label}: ${value} stars (${percentage}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-const groupColors = [
-  '#60A5FA',
-  '#34D399',
-  '#FBBF24',
-  '#F472B6',
-  '#A78BFA',
-  '#FB7185',
-  '#22D3EE',
-  '#84CC16'
-];
-
-function renderGroupChart() {
-  if (!allRepos || allRepos.length === 0) return;
-
-  const groupCounts = {};
-
-  allRepos.forEach(repo => {
-    const group = repo.customGroup || "Other";
-
-    groupCounts[group] = (groupCounts[group] || 0) + 1;
-  });
-
-  const sorted = Object.entries(groupCounts)
-    .sort((a, b) => b[1] - a[1]);
-
-  const groups = sorted.map(([g]) => g);
-  const counts = sorted.map(([, c]) => c);
-
-  const canvas = document.getElementById("groupChart");
-  if (!canvas) return;
-
-  let existing = Chart.getChart(canvas);
-  if (existing) existing.destroy();
-
-  new Chart(canvas, {
-    type: "pie",
-
-    data: {
-      labels: groups,
-
-      datasets: [{
-        data: counts,
-
-        backgroundColor: groupColors
-          .slice(0, groups.length)
-          .map(c => `${c}88`),
-
-        borderColor: groupColors.slice(0, groups.length),
-
-        borderWidth: 2,
-
-        hoverOffset: 10
-      }]
-    },
-
-    options: {
-      responsive: true,
-
-      plugins: {
-        legend: {
-          position: "bottom",
-          labels: {
-            color: "#fff",
-            font: { size: 12 },
-            padding: 12
-          }
-        },
-
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || '';
-              const value = context.raw || 0;
-
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-              const percentage = ((value / total) * 100).toFixed(1);
-
-              return `${label}: ${value} repos (${percentage}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-function renderStarsPerGroupChart() {
-  if (!allRepos || allRepos.length === 0) return;
-
-  const groupStars = {};
-
-  allRepos.forEach(repo => {
-    const group = repo.customGroup || "Other";
-
-    if (!groupStars[group]) {
-      groupStars[group] = 0;
-    }
-
-    groupStars[group] += repo.stargazers_count || 0;
-  });
-
-  const sortedGroups = Object.entries(groupStars)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-
-  const groups = sortedGroups.map(([group]) => group);
-  const stars = sortedGroups.map(([, stars]) => stars);
-
-  const canvas = document.getElementById('starsPerGroupChart');
-
-  if (!canvas) return;
-
-  let existingChart = Chart.getChart(canvas);
-
-  if (existingChart) {
-    existingChart.destroy();
-  }
-
-  new Chart(canvas, {
-    type: 'pie',
-
-    data: {
-      labels: groups,
-
-      datasets: [{
-        label: 'Stars',
-
-        data: stars,
-
-        backgroundColor: groupColors
-          .slice(0, groupColors.length)
-          .map(color => `${color}88`),
-
-        borderColor: groupColors.slice(0, groupColors.length),
-
-        borderWidth: 2,
-
-        hoverOffset: 12
-      }]
-    },
-
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      layout: {
-        padding: {
-          top: 10
-        }
-      },
-
-      plugins: {
-        legend: {
-          position: 'bottom',
-
-          labels: {
-            color: '#ffffff',
-
-            font: {
-              size: 12
-            },
-
-            padding: 12
-          }
-        },
-
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || '';
-              const value = context.raw || 0;
-
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-
-              const percentage = ((value / total) * 100).toFixed(1);
-
-              return `${label}: ${value} stars (${percentage}%)`;
-            }
-          }
-        }
-      }
-    }
-  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -793,7 +874,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = form.querySelector('.search-btn');
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
 
     const newUrl = `${window.location.pathname}?user=${encodeURIComponent(user)}`;
     window.history.pushState({ user: user }, '', newUrl);
@@ -828,7 +908,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".ddig").forEach(item => {
     item.addEventListener("click", () => {
-      btnGroup.children[0].textContent = item.textContent;
+      if (btnGroup && btnGroup.children[0]) {
+        btnGroup.children[0].textContent = item.textContent;
+      }
       currentGroup = item.textContent;
       dropdownGroup.classList.remove("open");
       renderRepos();
@@ -843,7 +925,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".ddio").forEach(item => {
     item.addEventListener("click", () => {
-      btnOrder.children[0].textContent = item.textContent;
+      if (btnOrder && btnOrder.children[0]) {
+        btnOrder.children[0].textContent = item.textContent;
+      }
       currentSort = item.textContent;
       dropdownOrder.classList.remove("open");
       renderRepos();
@@ -859,23 +943,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.body.addEventListener("click", (e) => {
-    const toggle = e.target.closest('.section-toggle');
-    if (toggle) {
-      e.stopPropagation();
-      const section = toggle.closest('.collapsible-section');
-      if (section) {
-        section.classList.toggle("open");
-
-        const chevron = toggle.querySelector('.fa-chevron-up');
-        if (chevron) {
-          if (section.classList.contains('open')) {
-            chevron.style.transform = 'rotate(0deg)';
-          } else {
-            chevron.style.transform = 'rotate(180deg)';
-          }
-        }
-      }
-    }
-  });
+  attachToggleListeners();
 });
