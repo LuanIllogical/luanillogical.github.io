@@ -1,15 +1,11 @@
-export function renderCharts(allRepos) {
-    const hasGroups = allRepos.some(r => r.customGroup && r.customGroup !== 'Other');
-    const chartsContainer = document.querySelector('.charts');
-    if (chartsContainer) chartsContainer.innerHTML = '';
-
-    renderLanguageChart(chartsContainer, allRepos);
-    renderStarsPerLanguageChart(chartsContainer, allRepos);
-    if (hasGroups) {
-        renderGroupChart(chartsContainer, allRepos);
-        renderStarsPerGroupChart(chartsContainer, allRepos);
-    }
-}
+let currentReposData = [];
+let chartsInitialized = false;
+let chartInstances = {
+    languageChart: null,
+    starsPerLanguageChart: null,
+    groupChart: null,
+    starsPerGroupChart: null
+};
 
 const languageColors = [
     '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
@@ -17,11 +13,53 @@ const languageColors = [
     '#E74C3C', '#3498DB', '#2ECC71', '#F39C12'
 ];
 
-function renderLanguageChart(chartsContainer, allRepos) {
-    if (!allRepos || allRepos.length === 0) return;
+const groupColors = [
+    '#60A5FA', '#34D399', '#FBBF24', '#F472B6',
+    '#A78BFA', '#FB7185', '#22D3EE', '#84CC16'
+];
+
+export function renderCharts(repos = null) {
+    if (repos !== null) {
+        currentReposData = repos;
+    }
+
+    if (!currentReposData || currentReposData.length === 0) return;
+
+    const hasGroups = currentReposData.some(r => r.customGroup && r.customGroup !== 'Other');
+    const chartsContainer = document.querySelector('.charts');
+    if (chartsContainer) chartsContainer.innerHTML = '';
+
+    renderLanguageChart(chartsContainer);
+    renderStarsPerLanguageChart(chartsContainer);
+
+    if (hasGroups) {
+        renderGroupChart(chartsContainer);
+        renderStarsPerGroupChart(chartsContainer);
+    }
+
+    chartsInitialized = true;
+}
+
+export function renderChartsSkeleton() {
+    const chartsContainer = document.querySelector(".charts");
+    if (chartsContainer) {
+        chartsContainer.innerHTML = `
+    ${Array(4).fill(0).map(() => `
+      <div class="chart-section">
+        <div class="repo-skeleton" style="height: 300px; width: 300px; margin: 0 auto; border-radius: 50%;">
+          <div style="width:100%; height:100%; border-radius:50%;"></div>
+        </div>
+      </div>
+    `).join('')}
+    `;
+    }
+}
+
+function renderLanguageChart(container) {
+    if (!currentReposData || currentReposData.length === 0) return;
 
     const languageCount = {};
-    allRepos.forEach(repo => {
+    currentReposData.forEach(repo => {
         const lang = repo.language || "Unknown";
         languageCount[lang] = (languageCount[lang] || 0) + 1;
     });
@@ -36,17 +74,16 @@ function renderLanguageChart(chartsContainer, allRepos) {
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Language Distribution</h2><canvas id="languageChart" width="350" height="350"></canvas>';
-    chartsContainer.appendChild(section);
+    container.appendChild(section);
 
     const canvas = document.getElementById('languageChart');
     if (!canvas) return;
 
-    let existingChart = Chart.getChart(canvas);
-    if (existingChart) {
-        existingChart.destroy();
+    if (chartInstances.languageChart) {
+        chartInstances.languageChart.destroy();
     }
 
-    new Chart(canvas, {
+    chartInstances.languageChart = new Chart(canvas, {
         type: 'pie',
         data: {
             labels: languages,
@@ -83,12 +120,12 @@ function renderLanguageChart(chartsContainer, allRepos) {
     });
 }
 
-function renderStarsPerLanguageChart(chartsContainer, allRepos) {
-    if (!allRepos || allRepos.length === 0) return;
+function renderStarsPerLanguageChart(container) {
+    if (!currentReposData || currentReposData.length === 0) return;
 
     const languageStars = {};
 
-    allRepos.forEach(repo => {
+    currentReposData.forEach(repo => {
         const lang = repo.language || "Unknown";
         languageStars[lang] = (languageStars[lang] || 0) + (repo.stargazers_count || 0);
     });
@@ -103,15 +140,16 @@ function renderStarsPerLanguageChart(chartsContainer, allRepos) {
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Stars Per Language</h2><canvas id="starsPerLanguageChart" width="350" height="350"></canvas>';
-    chartsContainer.appendChild(section);
+    container.appendChild(section);
 
     const canvas = document.getElementById('starsPerLanguageChart');
     if (!canvas) return;
 
-    let existingChart = Chart.getChart(canvas);
-    if (existingChart) existingChart.destroy();
+    if (chartInstances.starsPerLanguageChart) {
+        chartInstances.starsPerLanguageChart.destroy();
+    }
 
-    new Chart(canvas, {
+    chartInstances.starsPerLanguageChart = new Chart(canvas, {
         type: 'pie',
         data: {
             labels: languages,
@@ -149,17 +187,12 @@ function renderStarsPerLanguageChart(chartsContainer, allRepos) {
     });
 }
 
-const groupColors = [
-    '#60A5FA', '#34D399', '#FBBF24', '#F472B6',
-    '#A78BFA', '#FB7185', '#22D3EE', '#84CC16'
-];
-
-function renderGroupChart(chartsContainer, allRepos) {
-    if (!allRepos || allRepos.length === 0) return;
+function renderGroupChart(container) {
+    if (!currentReposData || currentReposData.length === 0) return;
 
     const groupCounts = {};
 
-    allRepos.forEach(repo => {
+    currentReposData.forEach(repo => {
         const group = repo.customGroup || "Other";
         groupCounts[group] = (groupCounts[group] || 0) + 1;
     });
@@ -171,15 +204,16 @@ function renderGroupChart(chartsContainer, allRepos) {
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Group Distribution</h2><canvas id="groupChart" width="350" height="350"></canvas>';
-    chartsContainer.appendChild(section);
+    container.appendChild(section);
 
     const canvas = document.getElementById("groupChart");
     if (!canvas) return;
 
-    let existing = Chart.getChart(canvas);
-    if (existing) existing.destroy();
+    if (chartInstances.groupChart) {
+        chartInstances.groupChart.destroy();
+    }
 
-    new Chart(canvas, {
+    chartInstances.groupChart = new Chart(canvas, {
         type: "pie",
         data: {
             labels: groups,
@@ -215,12 +249,12 @@ function renderGroupChart(chartsContainer, allRepos) {
     });
 }
 
-function renderStarsPerGroupChart(chartsContainer, allRepos) {
-    if (!allRepos || allRepos.length === 0) return;
+function renderStarsPerGroupChart(container) {
+    if (!currentReposData || currentReposData.length === 0) return;
 
     const groupStars = {};
 
-    allRepos.forEach(repo => {
+    currentReposData.forEach(repo => {
         const group = repo.customGroup || "Other";
         groupStars[group] = (groupStars[group] || 0) + (repo.stargazers_count || 0);
     });
@@ -232,15 +266,16 @@ function renderStarsPerGroupChart(chartsContainer, allRepos) {
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Stars Per Group</h2><canvas id="starsPerGroupChart" width="350" height="350"></canvas>';
-    chartsContainer.appendChild(section);
+    container.appendChild(section);
 
     const canvas = document.getElementById('starsPerGroupChart');
     if (!canvas) return;
 
-    let existingChart = Chart.getChart(canvas);
-    if (existingChart) existingChart.destroy();
+    if (chartInstances.starsPerGroupChart) {
+        chartInstances.starsPerGroupChart.destroy();
+    }
 
-    new Chart(canvas, {
+    chartInstances.starsPerGroupChart = new Chart(canvas, {
         type: 'pie',
         data: {
             labels: groups,

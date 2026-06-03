@@ -515,7 +515,7 @@ body {
   position: relative;
 
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -620,7 +620,6 @@ body {
   border-radius: 2px;
 }
 
-/* Update legend to use same variables: */
 .legend-color.level-0 {
   background-color: var(--contrib-fill-0, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--contrib-border-0, rgba(255, 255, 255, 0.08));
@@ -661,13 +660,11 @@ body {
   justify-content: center;
 }
 
-/* Main wrapper - force horizontal scroll if needed */
 .contribution-wrapper {
   min-width: 100%;
   overflow-x: auto;
 }
 
-/* Calendar container - this is the key fix */
 .contribution-calendar {
   display: flex;
   flex-direction: row;
@@ -675,14 +672,12 @@ body {
   min-width: max-content;
 }
 
-/* Each week is a column */
 .contribution-week {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
 
-/* Month labels row */
 .contribution-months {
   display: flex;
   flex-direction: row;
@@ -699,7 +694,6 @@ body {
   white-space: nowrap;
 }
 
-/* Day labels */
 .contribution-days {
   display: flex;
   flex-direction: row;
@@ -934,7 +928,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* Loading state for activity */
 .activity-skeleton {
   background: rgba(255, 255, 255, 0.04);
   border-radius: 12px;
@@ -951,6 +944,98 @@ body {
 
 .activity-skeleton-line.short {
   width: 60%;
+}
+
+.contribution-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  background: transparent;
+  border-radius: 16px;
+}
+
+.charts-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.chart-container h3 {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  margin-bottom: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+#weeklyLineChart,
+#monthlyLineChart,
+#yearlyLineChart {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  background: transparent;
+}
+
+.contribution-grid-wrapper {
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 15px;
+  min-width: 0;
+  transition: none;
+}
+
+@media (max-width: 900px) {
+  .charts-row {
+    flex-wrap: wrap;
+  }
+
+  .chart-container {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .chart-container {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .chart-container h3 {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .contribution-dashboard {
+    padding: 10px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  #weeklyLineChart,
+  #monthlyLineChart,
+  #yearlyLineChart {
+    max-height: 160px;
+  }
 }
 
 
