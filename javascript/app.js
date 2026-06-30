@@ -7,7 +7,8 @@ import {
   setCurrentGroup,
   setCurrentSort,
   getReposData,
-  renderReposSkeleton
+  renderReposSkeleton,
+  setVideoPreviews
 } from "./repos.js";
 import {
   setContributionsData,
@@ -100,6 +101,11 @@ async function loadDossier(username) {
     }
 
     setReposData(allRepos);
+
+    console.log(data.videoPreviews);
+    if (data.videoPreviews) {
+      setVideoPreviews(data.videoPreviews);
+    }
     render();
   } catch (error) {
     console.error('Error loading dossier:', error);
