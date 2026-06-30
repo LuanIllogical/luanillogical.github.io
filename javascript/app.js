@@ -105,8 +105,8 @@ async function loadDossier(username) {
     console.error('Error loading dossier:', error);
     const container = document.getElementById("user");
     if (container) {
-      container.innerHTML = `<div style="background: #ffebe9; padding: 1rem; border-radius: 1rem; color: #d73a49;">
-        <strong>⚠️ Error loading user data</strong><br>
+      container.innerHTML = `<div style="background: #ffebe9; padding: 1rem; border-radius: 1rem; color: #d73a49; margin-bottom: 2rem;">
+        <strong>Error loading user data</strong><br>
         ${escapeHtml(error.message)}<br>
         User "${escapeHtml(username)}" may not exist or GitHub API is rate limited.
       </div>`;

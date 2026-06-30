@@ -10,50 +10,70 @@ export function setContributionsData(data) {
     contributionsData = data;
 }
 
-export function getContributionsData() {
-    return contributionsData;
-}
-
 export function renderContributions() {
+    const container = document.getElementById("contributionsContent");
+    if (!container) return;
 
     if (!contributionsData || !contributionsData.contributions || contributionsData.contributions.length === 0) {
         container.innerHTML = '<div class="empty-activity"><i class="fa fa-info-circle"></i> No contribution data available</div>';
         return;
     }
-    if (!contributionsData?.colorScheme && !contributionsData?.customColorScheme) {
-        const styleElement = document.getElementById('contrib-color-scheme');
-        if (styleElement) styleElement.remove();
+
+    let styleElement = document.getElementById('contrib-color-scheme');
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = 'contrib-color-scheme';
+        document.head.appendChild(styleElement);
     }
+
+    let css = ':root {\n';
 
     if (contributionsData.colorScheme) {
-        const { fills, borders } = contributionsData.colorScheme;
-        let styleElement = document.getElementById('contrib-color-scheme');
-        if (!styleElement) {
-            styleElement = document.createElement('style');
-            styleElement.id = 'contrib-color-scheme';
-            document.head.appendChild(styleElement);
+        for (let i = 0; i <= 4; i++) {
+            if (contributionsData.colorScheme[i]) {
+                const color = contributionsData.colorScheme[i];
+                css += `  --detail-color-${i}: ${color};\n`;
+
+                if (color.startsWith('rgba')) {
+                    const parts = color.match(/[\d.]+/g);
+                    if (parts && parts.length === 4) {
+                        const opacity = Math.min(parseFloat(parts[3]) + 0.08, 1);
+                        css += `  --accent-color-${i}: rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${opacity});\n`;
+                    } else {
+                        css += `  --accent-color-${i}: ${color};\n`;
+                    }
+                } else {
+                    css += `  --accent-color-${i}: ${color};\n`;
+                }
+            }
         }
-        let css = ':root {\n';
-        fills.forEach((f, i) => css += `  --contrib-fill-${i}: ${f};\n`);
-        borders.forEach((b, i) => css += `  --contrib-border-${i}: ${b};\n`);
-        css += '}\n';
-        styleElement.textContent = css;
+    } else {
+        // SHOULD (key word) never be necessary
+        const defaultFills = [
+            'rgba(255, 255, 255, 0.06)',
+            'rgba(14, 68, 41, 0.55)',
+            'rgba(0, 109, 50, 0.65)',
+            'rgba(38, 166, 65, 0.72)',
+            'rgba(57, 211, 83, 0.80)'
+        ];
+        const defaultBorders = [
+            'rgba(255, 255, 255, 0.10)',
+            'rgba(14, 68, 41, 0.65)',
+            'rgba(0, 109, 50, 0.75)',
+            'rgba(38, 166, 65, 0.82)',
+            'rgba(57, 211, 83, 0.90)'
+        ];
+
+        for (let i = 0; i <= 4; i++) {
+            css += `  --detail-color-${i}: ${defaultFills[i]};\n`;
+            css += `  --accent-color-${i}: ${defaultBorders[i]};\n`;
+        }
     }
 
-    colors = [];
-    for (let i = 0; i <= 4; i++) {
-        const color = getComputedStyle(document.documentElement)
-            .getPropertyValue(`--contrib-fill-${i}`).trim();
-        if (color) colors.push(color);
-    }
-    borderColors = [];
-    for (let i = 0; i <= 4; i++) {
-        const color = getComputedStyle(document.documentElement)
-            .getPropertyValue(`--contrib-border-${i}`).trim();
-        if (color) borderColors.push(color);
-    }
-    const container = document.getElementById("contributionsContent");
-    if (!container) return;
+    css += '}\n';
+    styleElement.textContent = css;
+
+    populateChartColors();
 
     const totalContributions = contributionsData.total || contributionsData.contributions.reduce((sum, c) => sum + c.count, 0);
 
@@ -110,6 +130,37 @@ export function renderContributions() {
         renderMonthlyLineChart(monthlyData);
         renderYearlyLineChart(yearlyData);
     }, 100);
+}
+
+function populateChartColors() {
+    colors = [];
+    borderColors = [];
+
+    const defaultFills = [
+        'rgba(255, 255, 255, 0.06)',
+        'rgba(14, 68, 41, 0.55)',
+        'rgba(0, 109, 50, 0.65)',
+        'rgba(38, 166, 65, 0.72)',
+        'rgba(57, 211, 83, 0.80)'
+    ];
+
+    const defaultBorders = [
+        'rgba(255, 255, 255, 0.10)',
+        'rgba(14, 68, 41, 0.65)',
+        'rgba(0, 109, 50, 0.75)',
+        'rgba(38, 166, 65, 0.82)',
+        'rgba(57, 211, 83, 0.90)'
+    ];
+
+    for (let i = 0; i <= 4; i++) {
+        const fillColor = getComputedStyle(document.documentElement)
+            .getPropertyValue(`--detail-color-${i}`).trim();
+        colors.push(fillColor || defaultFills[i]);
+
+        const borderColor = getComputedStyle(document.documentElement)
+            .getPropertyValue(`--accent-color-${i}`).trim();
+        borderColors.push(borderColor || defaultBorders[i]);
+    }
 }
 
 export function renderContributionsSkeleton() {
@@ -297,7 +348,7 @@ function renderWeeklyLineChart(data) {
             datasets: [{
                 label: 'Daily Contributions',
                 data: data.counts,
-                borderColor: borderColors[2],
+                borderColor: borderColors[4],
                 backgroundColor: colors[2],
                 borderWidth: 2,
                 fill: true,
@@ -404,7 +455,7 @@ function renderMonthlyLineChart(data) {
             datasets: [{
                 label: 'Daily Contributions',
                 data: data.counts,
-                borderColor: borderColors[2],
+                borderColor: borderColors[4],
                 backgroundColor: colors[2],
                 borderWidth: 1.5,
                 fill: true,
@@ -514,7 +565,7 @@ function renderYearlyLineChart(data) {
             datasets: [{
                 label: 'Weekly Contributions',
                 data: data.counts,
-                borderColor: borderColors[2],
+                borderColor: borderColors[4],
                 backgroundColor: colors[2],
                 borderWidth: 1.5,
                 fill: true,

@@ -5,10 +5,6 @@ export function setActivityData(data) {
     activityData = data;
 }
 
-export function getActivityData() {
-    return activityData;
-}
-
 export function setUserProfileForActivity(profile) {
     userProfile = profile;
 }

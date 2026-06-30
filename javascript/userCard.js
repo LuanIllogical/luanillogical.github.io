@@ -6,10 +6,6 @@ export function setUserProfile(profile) {
     userProfile = profile;
 }
 
-export function getUserProfile() {
-    return userProfile;
-}
-
 export function setReadmeHTML(readme) {
     readmeHTML = readme;
 }
