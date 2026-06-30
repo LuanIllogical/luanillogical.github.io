@@ -10,6 +10,8 @@ Instructions on how to use all of the features of the Github User Dossier for yo
 - [Multiple Tags](#multiple-tags)
 - [Custom Groups of Repositories](#custom-groups-of-repositories)
 - [Custom Background](#custom-background)
+- [Custom Colors](#custom-colors)
+- [Video Previews](#video-previews)
 - [Translations for user README](#translations-for-user-readme)
 
 
@@ -69,6 +71,29 @@ linear-gradient(to top, #750da8, #000960)
 ```
 
 You can use whatever CSS styling you'd put in the ``background`` field of the ``body``.
+
+<a id="custom-colors"></a>
+## 🔵 Custom Colors
+
+Add this hidden tag to the top of your user README.md:
+
+```
+<!--
+gud-custom-color-0: rgba(255, 218, 10, 0.06)
+gud-custom-color-1: rgba(255, 218, 10, 0.44)
+gud-custom-color-2: rgba(255, 218, 10, 0.55)
+gud-custom-color-3: rgba(255, 218, 10, 0.72)
+gud-custom-color-4: rgba(255, 218, 10, 0.90)
+-->
+```
+
+You can also use hex or hsl codes instead of rgb!
+If you have a custom background and no custom colors (or some custom colors absent), they will default to transparent. If you have neither, they will default to the GitHub green colors.
+
+<a id="video-previews"></a>
+## 📹 Video Previews
+
+By adding .webm files with the name of your repositories to your user repo (example: https://github.com/LuanIllogical/LuanIllogical), they will appear as animated previews when their card is hovered!
 
 <a id="translations-for-user-readme"></a>
 ## 🌐 Translations for user README
