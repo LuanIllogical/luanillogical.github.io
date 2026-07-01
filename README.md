@@ -10,7 +10,8 @@ Instructions on how to use all of the features of the Github User Dossier for yo
 - [Multiple Tags](#multiple-tags)
 - [Custom Groups of Repositories](#custom-groups-of-repositories)
 - [Custom Background](#custom-background)
-- [Custom Colors](#custom-colors)
+- [Custom Detail Colors](#custom-detail-colors)
+- [Custom Chart Colors](#custom-chart-colors)
 - [Video Previews](#video-previews)
 - [Translations for user README](#translations-for-user-readme)
 
@@ -72,23 +73,46 @@ linear-gradient(to top, #750da8, #000960)
 
 You can use whatever CSS styling you'd put in the ``background`` field of the ``body``.
 
-<a id="custom-colors"></a>
-## 🔵 Custom Colors
+<a id="custom-detail-colors"></a>
+## 🖌️ Custom Detail Colors
 
 Add this hidden tag to the top of your user README.md:
 
 ```
 <!--
-gud-custom-color-0: rgba(255, 218, 10, 0.06)
-gud-custom-color-1: rgba(255, 218, 10, 0.44)
-gud-custom-color-2: rgba(255, 218, 10, 0.55)
-gud-custom-color-3: rgba(255, 218, 10, 0.72)
-gud-custom-color-4: rgba(255, 218, 10, 0.90)
+gud-detail-colors: {
+rgba(255, 218, 10, 0.06)
+rgba(255, 218, 10, 0.44)
+rgba(255, 218, 10, 0.55)
+rgba(255, 218, 10, 0.72)
+rgba(255, 218, 10, 0.90)
+}
 -->
 ```
 
 You can also use hex or hsl codes instead of rgb!
-If you have a custom background and no custom colors (or some custom colors absent), they will default to transparent. If you have neither, they will default to the GitHub green colors.
+The total amount of detail colors used are 5, if any are absent, they will be replaced by default ones.
+
+<a id="custom-chart-colors"></a>
+## 🔵 Custom Chart Colors
+
+Add these hidden tags to the top of your user README.md:
+
+```
+<!--
+gud-chart-group-colors: {
+    Other: #FF6B6B
+    Active Variety Projects: #4ECDC4
+}
+gud-chart-language-colors: {
+    "C#": #FF6B6B
+    "Javascript": #4ECDC4
+}
+-->
+```
+
+You can also use rgb or hsl codes instead of hex!
+Both tags don't need to be used together, if you want to just change the color of one specific group for example, that's fine! All other groups and languages will use default colors.
 
 <a id="video-previews"></a>
 ## 📹 Video Previews
