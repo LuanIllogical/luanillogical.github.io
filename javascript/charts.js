@@ -7,18 +7,66 @@ let chartInstances = {
     starsPerGroupChart: null
 };
 
-const languageColors = [
+const defaultLanguageColors = [
     '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
     '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7B731',
     '#E74C3C', '#3498DB', '#2ECC71', '#F39C12'
 ];
 
-const groupColors = [
+const defaultGroupColors = [
     '#60A5FA', '#34D399', '#FBBF24', '#F472B6',
     '#A78BFA', '#FB7185', '#22D3EE', '#84CC16'
 ];
 
+let languageColorMap = {};
+let groupColorMap = {};
+
+function getLanguageColor(language, index) {
+    if (languageColorMap[language]) {
+        console.log(`Using custom color for language "${language}": ${languageColorMap[language]}`);
+        return languageColorMap[language];
+    }
+    const defaultColor = defaultLanguageColors[index % defaultLanguageColors.length];
+    console.log(`Using default color for language "${language}": ${defaultColor}`);
+    return defaultColor;
+}
+
+function getGroupColor(group, index) {
+    if (groupColorMap[group]) {
+        console.log(`Using custom color for group "${group}": ${groupColorMap[group]}`);
+        return groupColorMap[group];
+    }
+    const defaultColor = defaultGroupColors[index % defaultGroupColors.length];
+    console.log(`Using default color for group "${group}": ${defaultColor}`);
+    return defaultColor;
+}
+
+export function setChartsLanguageColors(colors) {
+    console.log('Setting language colors:', colors);
+    if (colors && typeof colors === 'object') {
+        languageColorMap = { ...colors };
+        console.log('Language color map updated:', languageColorMap);
+    } else if (Array.isArray(colors)) {
+        defaultLanguageColors.length = 0;
+        defaultLanguageColors.push(...colors);
+        console.log('Default language colors updated:', defaultLanguageColors);
+    }
+}
+
+export function setChartsGroupColors(colors) {
+    console.log('Setting group colors:', colors);
+    if (colors && typeof colors === 'object') {
+        groupColorMap = { ...colors };
+        console.log('Group color map updated:', groupColorMap);
+    } else if (Array.isArray(colors)) {
+        defaultGroupColors.length = 0;
+        defaultGroupColors.push(...colors);
+        console.log('Default group colors updated:', defaultGroupColors);
+    }
+}
+
 export function renderCharts(repos = null) {
+    console.log('renderCharts called with repos:', repos ? repos.length : 'null');
     if (repos !== null) {
         currentReposData = repos;
     }
@@ -71,6 +119,8 @@ function renderLanguageChart(container) {
     const languages = sortedLanguages.map(([lang]) => lang);
     const counts = sortedLanguages.map(([, count]) => count);
 
+    const colors = languages.map((lang, index) => getLanguageColor(lang, index));
+
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Language Distribution</h2><canvas id="languageChart" width="350" height="350"></canvas>';
@@ -89,8 +139,8 @@ function renderLanguageChart(container) {
             labels: languages,
             datasets: [{
                 data: counts,
-                backgroundColor: languageColors.slice(0, languages.length).map(color => `${color}88`),
-                borderColor: languageColors.slice(0, languages.length),
+                backgroundColor: colors.map(color => `${color}88`),
+                borderColor: colors,
                 borderWidth: 2,
                 hoverOffset: 10
             }]
@@ -137,6 +187,8 @@ function renderStarsPerLanguageChart(container) {
     const languages = sortedLanguages.map(([lang]) => lang);
     const stars = sortedLanguages.map(([, stars]) => stars);
 
+    const colors = languages.map((lang, index) => getLanguageColor(lang, index));
+
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Stars Per Language</h2><canvas id="starsPerLanguageChart" width="350" height="350"></canvas>';
@@ -156,8 +208,8 @@ function renderStarsPerLanguageChart(container) {
             datasets: [{
                 label: 'Stars',
                 data: stars,
-                backgroundColor: languageColors.slice(0, languages.length).map(color => `${color}88`),
-                borderColor: languageColors.slice(0, languages.length),
+                backgroundColor: colors.map(color => `${color}88`),
+                borderColor: colors,
                 borderWidth: 2,
                 hoverOffset: 12
             }]
@@ -201,6 +253,8 @@ function renderGroupChart(container) {
     const groups = sorted.map(([g]) => g);
     const counts = sorted.map(([, c]) => c);
 
+    const colors = groups.map((group, index) => getGroupColor(group, index));
+
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Group Distribution</h2><canvas id="groupChart" width="350" height="350"></canvas>';
@@ -219,8 +273,8 @@ function renderGroupChart(container) {
             labels: groups,
             datasets: [{
                 data: counts,
-                backgroundColor: groupColors.slice(0, groups.length).map(c => `${c}88`),
-                borderColor: groupColors.slice(0, groups.length),
+                backgroundColor: colors.map(color => `${color}88`),
+                borderColor: colors,
                 borderWidth: 2,
                 hoverOffset: 10
             }]
@@ -263,6 +317,8 @@ function renderStarsPerGroupChart(container) {
     const groups = sortedGroups.map(([group]) => group);
     const stars = sortedGroups.map(([, stars]) => stars);
 
+    const colors = groups.map((group, index) => getGroupColor(group, index));
+
     const section = document.createElement('div');
     section.className = 'chart-section';
     section.innerHTML = '<h2>Stars Per Group</h2><canvas id="starsPerGroupChart" width="350" height="350"></canvas>';
@@ -282,8 +338,8 @@ function renderStarsPerGroupChart(container) {
             datasets: [{
                 label: 'Stars',
                 data: stars,
-                backgroundColor: groupColors.slice(0, groups.length).map(color => `${color}88`),
-                borderColor: groupColors.slice(0, groups.length),
+                backgroundColor: colors.map(color => `${color}88`),
+                borderColor: colors,
                 borderWidth: 2,
                 hoverOffset: 12
             }]

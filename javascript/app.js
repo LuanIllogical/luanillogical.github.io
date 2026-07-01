@@ -1,4 +1,4 @@
-import { renderCharts } from "./charts.js";
+import { renderCharts, setChartsLanguageColors, setChartsGroupColors } from "./charts.js";
 import {
   setReposData,
   updateAndRenderRepos,
@@ -13,7 +13,8 @@ import {
 import {
   setContributionsData,
   renderContributions,
-  renderContributionsSkeleton
+  renderContributionsSkeleton,
+  setContributionsDetailColors
 } from "./contribution.js";
 import {
   setActivityData,
@@ -29,6 +30,10 @@ import {
   setCurrentLanguage,
   getCurrentLanguage
 } from "./userCard.js";
+import {
+  setBackgroundCSS,
+  setDetailColors
+} from "./colors.js"
 
 const API_BASE = "https://gud-api.vercel.app";
 
@@ -53,14 +58,6 @@ async function loadDossier(username) {
     if (data.user && data.user.message === "Not Found") {
       throw new Error(`User "${username}" not found`);
     }
-
-    if (data.backgroundCSS) {
-      applyBackgroundCSS(data.backgroundCSS);
-    } else {
-      document.body.style.background = "#050505";
-      document.body.style.backgroundAttachment = "";
-    }
-
     const repoData = data.repos;
 
     setUserProfile(data.user);
@@ -102,10 +99,22 @@ async function loadDossier(username) {
 
     setReposData(allRepos);
 
-    console.log(data.videoPreviews);
     if (data.videoPreviews) {
       setVideoPreviews(data.videoPreviews);
     }
+    const detailColors = data.customDetailColors || null;
+    setDetailColors(detailColors);
+    const backgroundCSS = data.backgroundCSS || null;
+    setBackgroundCSS(backgroundCSS);
+    const chartGroupColors = data.chartGroupColors || null;
+    if (chartGroupColors) {
+      setChartsGroupColors(chartGroupColors);
+    }
+    const chartLanguageColors = data.chartLanguageColors || null;
+    if (chartLanguageColors) {
+      setChartsLanguageColors(chartLanguageColors);
+    }
+
     render();
   } catch (error) {
     console.error('Error loading dossier:', error);
@@ -168,23 +177,6 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-function applyBackgroundCSS(backgroundCSS) {
-  if (!backgroundCSS) {
-    document.body.style.background = "#050505";
-    document.body.style.backgroundAttachment = "";
-    const styleElement = document.getElementById('contrib-color-scheme');
-    if (styleElement) styleElement.remove();
-    return;
-  }
-
-  document.body.style.background = backgroundCSS;
-
-  if (backgroundCSS.includes('gradient')) {
-    document.body.style.minHeight = "100vh";
-    document.body.style.backgroundAttachment = "fixed";
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

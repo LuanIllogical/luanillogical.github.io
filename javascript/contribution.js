@@ -10,6 +10,10 @@ export function setContributionsData(data) {
     contributionsData = data;
 }
 
+export function setContributionsDetailColors(colors) {
+    detailColors = colors;
+}
+
 export function renderContributions() {
     const container = document.getElementById("contributionsContent");
     if (!container) return;
@@ -18,61 +22,6 @@ export function renderContributions() {
         container.innerHTML = '<div class="empty-activity"><i class="fa fa-info-circle"></i> No contribution data available</div>';
         return;
     }
-
-    let styleElement = document.getElementById('contrib-color-scheme');
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = 'contrib-color-scheme';
-        document.head.appendChild(styleElement);
-    }
-
-    let css = ':root {\n';
-
-    if (contributionsData.colorScheme) {
-        for (let i = 0; i <= 4; i++) {
-            if (contributionsData.colorScheme[i]) {
-                const color = contributionsData.colorScheme[i];
-                css += `  --detail-color-${i}: ${color};\n`;
-
-                if (color.startsWith('rgba')) {
-                    const parts = color.match(/[\d.]+/g);
-                    if (parts && parts.length === 4) {
-                        const opacity = Math.min(parseFloat(parts[3]) + 0.08, 1);
-                        css += `  --accent-color-${i}: rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${opacity});\n`;
-                    } else {
-                        css += `  --accent-color-${i}: ${color};\n`;
-                    }
-                } else {
-                    css += `  --accent-color-${i}: ${color};\n`;
-                }
-            }
-        }
-    } else {
-        // SHOULD (key word) never be necessary
-        const defaultFills = [
-            'rgba(255, 255, 255, 0.06)',
-            'rgba(14, 68, 41, 0.55)',
-            'rgba(0, 109, 50, 0.65)',
-            'rgba(38, 166, 65, 0.72)',
-            'rgba(57, 211, 83, 0.80)'
-        ];
-        const defaultBorders = [
-            'rgba(255, 255, 255, 0.10)',
-            'rgba(14, 68, 41, 0.65)',
-            'rgba(0, 109, 50, 0.75)',
-            'rgba(38, 166, 65, 0.82)',
-            'rgba(57, 211, 83, 0.90)'
-        ];
-
-        for (let i = 0; i <= 4; i++) {
-            css += `  --detail-color-${i}: ${defaultFills[i]};\n`;
-            css += `  --accent-color-${i}: ${defaultBorders[i]};\n`;
-        }
-    }
-
-    css += '}\n';
-    styleElement.textContent = css;
-
     populateChartColors();
 
     const totalContributions = contributionsData.total || contributionsData.contributions.reduce((sum, c) => sum + c.count, 0);

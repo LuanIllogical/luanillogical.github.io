@@ -26,6 +26,11 @@ body {
   align-items: center;
 }
 
+.sorters {
+  gap: 20px;
+  display: flex;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -393,7 +398,7 @@ body {
 }
 
 .user-meta a {
-  color: var(--accent-color-4);
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -435,14 +440,14 @@ body {
 }
 
 .readme-card blockquote {
-  border-left: 3px solid var(--accent-color-4);
+  border-left: 3px solid var(--link-color);
   padding-left: 12px;
   opacity: 0.8;
 }
 
 .readme-card a,
 .inner-user-stats a {
-  color: var(--accent-color-4);
+  color: var(--link-color);
   text-decoration: none;
 }
 
@@ -1134,8 +1139,11 @@ body {
   }
 }
 
-
 @media (max-width: 900px) {
+  .sorters {
+    margin-bottom: 1rem
+  }
+
   .user-card {
     grid-template-columns: 1fr;
     gap: 20px;
